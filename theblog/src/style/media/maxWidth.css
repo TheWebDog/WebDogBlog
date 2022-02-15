@@ -1,0 +1,47 @@
+@media (max-width: 900px) {
+  .header_div1 {
+    display: none;
+  }
+  .el-main {
+    padding: 0px !important;
+  }
+  .el-drawer {
+    width: 220px !important;
+  }
+  .el_card_generalization,
+  .el_card_author,
+  .el_card_time{
+    display: none !important;
+  }
+  .el_card_title{
+    max-width: 100px;
+  }
+}
+@media (max-width: 1200px) {
+  .el-aside {
+    display: none;
+  }
+  .article_li{
+    height: 150px;
+  }
+  .el_card_el_image{
+    height: 98px;
+  }
+  .el_card_title{
+    height: 16px;
+    font-size: 16px;
+    line-height: 16px;
+  }
+}
+@media (min-width: 901px) and (max-width: 1200px){
+  .el-main {
+    padding: 5px 150px !important;
+  }
+  .el_card_generalization,
+  .el_card_author{
+    display: none !important;
+  }
+  .el_card_title{
+    max-width: 350px;
+  }
+}

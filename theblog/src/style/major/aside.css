@@ -1,0 +1,137 @@
+.aside_div {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding-top: 25px;
+  padding-right: 100px;
+  /* position: relative; */
+
+  overflow: auto !important;
+}
+
+.about {
+  box-sizing: border-box;
+  width: 100%;
+  height: 400px;
+  position: relative;
+  background-color: rgb(246, 246, 246);
+
+  /* 不知道为什么不生效 */
+  /* position: sticky; */
+  /* top: 10px; */
+}
+.about_background_1 {
+  width: 100%;
+  height: 110px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+
+  background-image: linear-gradient(
+      to top,
+      rgba(246, 246, 246, 1),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    url(../../static/cloud.gif);
+  background-size: contain;
+}
+.about_background_2 {
+  width: 100%;
+  height: 80px;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0px;
+  z-index: 1;
+
+  background-image: linear-gradient(
+      to bottom,
+      rgba(246, 246, 246, 1),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 1)
+    ),
+    url(../../static/cat.gif);
+  background-size: contain;
+}
+.headPortrait_div {
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 40px;
+  z-index: 2;
+  display: flex;
+}
+.headPortrait {
+  width: 80px;
+  height: 80px;
+  border: 5px solid #e8e8e8;
+  border-radius: 50%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  background-color: white;
+}
+.theheadPortrait {
+  width: 150px;
+  height: 70px;
+  background-image: url(../../static/dog.gif);
+  background-size: contain;
+  position: relative;
+  right: 12px;
+}
+.webdog {
+  color: #696969;
+  width: 105px;
+  height: 100%;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 100px;
+}
+.webdog_left {
+  text-align: right;
+}
+.webdog_right {
+  text-align: left;
+}
+.saying {
+  text-align: center;
+  color: #878d99;
+  font-size: 500;
+  position: absolute;
+  bottom: 150px;
+}
+.social_div {
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  top: 110px;
+  color: #878d99;
+}
+.line {
+  height: 1px;
+  background-color: #e8e8e8;
+  margin: 10px 20px;
+}
+.social{
+  width: 100%;
+  height: 50px;
+  display: flex;
+}
+.social_text{
+  width: 50px;
+  height: 50px;
+  text-align: right;
+}
+.social_ul{
+  width: 200px;
+  display: flex;
+  list-style: none;
+  margin-left: 25px;
+}
+.social_li{
+  width: 50px;
+  height: 50px;
+}

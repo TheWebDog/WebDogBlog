@@ -1,0 +1,50 @@
+.header_div,
+.header_div1,
+.el-row,
+.blog_name,
+.el-col,
+.el_col_header_div,
+.header_ul,
+.header_li{
+  height: 100%;
+  line-height: 59px;
+  /* 禁用文字选中 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.blog_name{
+  position: relative;
+}
+.the_blog_name{
+  position: absolute;
+  font-size: 20px;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+.the_blog_name2{
+  font-size: 20px;
+}
+.blog_name2{
+  text-align: center;
+}
+.el-icon-s-home{
+  font-size: 24px;
+}
+.header_ul{
+  display: flex;
+  justify-content: right;
+  list-style: none;
+}
+.header_li{
+  margin: 0px 6px;
+}
+.search{
+  width: 230px !important;
+}
+.el-button-nav{
+  padding: 10px !important;
+}

@@ -1,0 +1,29 @@
+@media (min-width: 901px) {
+  .blog_name{
+    display: none;
+  }
+}
+@media (min-width: 1200px){
+  .Home_body{
+    box-sizing: border-box;
+    width: 1200px;
+    margin: 5px auto;
+  }
+  .article_li{
+    height: 200px;
+  }
+  .el_card_el_image{
+    height: 148px;
+  }
+  .el_card_title{
+    height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    max-width: 400px;
+  }
+  .el_card_generalization{
+    max-width: 400px;
+  }
+}
+
+

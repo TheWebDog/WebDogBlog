@@ -1,0 +1,2 @@
+在theblog/public中加入了通过设计稿计算rem的js脚本
+安装了vuex vue-router
