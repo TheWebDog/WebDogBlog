@@ -8,16 +8,16 @@
     ></el-image>
     </div>
 
-    <Article></Article>
+    <List></List>
   </div>
 </template>
 
 <script>
-import { Article } from './article'
+import { List } from './list'
 export default {
   name: "HomeBody",
   components: {
-    Article,
+    List,
   },
 }
 </script>

@@ -40,10 +40,6 @@ body::-webkit-scrollbar {
   margin: 5px auto;
   padding: 0px 10px;
 }
-.Home_Header {
-  /* position: sticky; */
-  /* top: 10px; */
-}
 .el-aside {
   position: sticky !important;
   top: 10px;

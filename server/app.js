@@ -10,6 +10,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
 // 分路由
-app.use('/' , require('./routers/index'))
+app.use('/page', require('./routers/pageRouter'))
+app.use('/user', require('./routers/userRouter'))
 
-app.listen(3090)
+app.listen(4000)

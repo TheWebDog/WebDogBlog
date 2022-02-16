@@ -1,4 +1,3 @@
-
 const mongooseConnected = require('../db')
 
 const Page = mongooseConnected.Schema({

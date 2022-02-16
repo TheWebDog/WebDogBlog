@@ -1,7 +1,7 @@
 <template>
   <div class="header_div">
     <div class="blog_name">
-      <div class="the_blog_name"><i class="el-icon-s-home"></i>博客名</div>
+      <div class="the_blog_name"><i class="el-icon-s-home"></i>WebDog的主页</div>
       <el-button
         plain
         icon="el-icon-s-unfold"
@@ -13,13 +13,18 @@
       </el-button>
 
       <el-drawer
-        title="博客名"
+        title="WebDog的主页"
         :visible.sync="drawer"
         :with-header="true"
         direction="ltr"
       >
         <div>
-          <el-tabs :tab-position="tabPosition" style="height: 200px">
+          <el-tabs
+            :tab-position="tabPosition"
+            style="height: 200px"
+            @tab-click="handleClick"
+          >
+            <el-tab-pane label="博客主页">博客主页</el-tab-pane>
             <el-tab-pane label="技术交流">技术交流</el-tab-pane>
             <el-tab-pane label="文章分类">文章分类</el-tab-pane>
             <el-tab-pane label="源码分享">源码分享</el-tab-pane>
@@ -30,17 +35,17 @@
     </div>
     <div class="header_div1">
       <el-row :gutter="20">
-        <el-col :span="4" class="blog_name2">
+        <el-col :span="5" class="blog_name2">
           <el-link>
             <div class="el_col_header_div the_blog_name2" @click="to_home">
-              <i class="el-icon-s-home"></i>博客名
+              WebDog的主页<i class="el-icon-s-home"></i>
             </div>
           </el-link>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="19">
           <div class="el_col_header_div">
             <ul class="header_ul">
-              <li class="header_li" @click="to_article">
+              <li class="header_li" @click="to_list">
                 <el-link type="primary" icon="el-icon-s-promotion">
                   技术交流
                 </el-link>
@@ -80,7 +85,6 @@ export default {
     return {
       searchinput: '',
       drawer: false,
-      isCollapse: true,
       tabPosition: 'left',
     }
   },
@@ -92,9 +96,32 @@ export default {
     to_home () {
       this.$router.push('/')
     },
-    to_article () {
-      this.$router.push('/article')
+    to_list () {
+      this.$router.push('/list')
     },
+    handleClick (tab) {
+      // console.log(tab._props.label, event);
+      switch (tab._props.label) {
+        case '博客主页':
+          this.to_home()
+          break;
+        case '技术交流':
+          this.to_list()
+          break;
+        case '文章分类':
+
+          break;
+        case '源码分享':
+
+          break;
+        case '关于博主':
+
+          break;
+
+        default:
+          break;
+      }
+    }
   },
   created () {
 

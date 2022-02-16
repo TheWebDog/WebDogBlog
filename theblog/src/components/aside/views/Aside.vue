@@ -37,7 +37,7 @@
       </p>
       <div class="headPortrait_div">
         <div class="webdog webdog_left">web</div>
-        <div class="headPortrait">
+        <div class="headPortrait"  @click="to_login">
           <div class="theheadPortrait"></div>
         </div>
         <div class="webdog webdog_right">dog</div>
@@ -52,5 +52,10 @@
 <script>
 export default {
   name: 'Aside',
+  methods:{
+    to_login () {
+      this.$router.push('/login')
+    },
+  },
 }
 </script>

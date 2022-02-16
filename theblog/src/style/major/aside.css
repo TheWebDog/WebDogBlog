@@ -7,6 +7,7 @@
   /* position: relative; */
 
   overflow: auto !important;
+  min-height: 800px;
 }
 
 .about {
@@ -73,6 +74,7 @@
   overflow: hidden;
   position: relative;
   background-color: white;
+  cursor: pointer;
 }
 .theheadPortrait {
   width: 150px;
@@ -134,4 +136,5 @@
 .social_li{
   width: 50px;
   height: 50px;
+  cursor: pointer;
 }
