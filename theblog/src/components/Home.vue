@@ -15,7 +15,7 @@
             <router-view></router-view>
           </div>
         </el-main>
-        
+
         <!-- 内容侧边区 -->
         <el-aside width="400px">
           <Aside></Aside>
@@ -43,6 +43,11 @@ export default {
     Header,
     Footer,
     Aside,
+  },
+  data () {
+    return {
+
+    }
   },
 
 

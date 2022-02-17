@@ -1,18 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+// 没啥大用的store 空的
 import { headerStore } from './components/header'
 import { footerStore } from './components/footer'
 import { listStore } from './components/list'
 import { asideStore } from './components/aside'
 import { articleStore } from './components/article'
 import { loginStore } from './components/login'
+
+
+
+import { markdownStore } from './components/writing'
  
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
+    markdownStore,
+
+
     headerStore,
     footerStore,
     listStore,

@@ -1,8 +1,19 @@
-import { GET_ETXTAREA, GET_VALUE, GET_CLASSIFY, SUBMIT } from './type'
+import { GET_ETXTAREA, GET_VALUE, GET_CLASSIFY, SUBMIT ,GET_SERVER_CLASSIFY} from './type'
 import { marked } from 'marked'
 import axios from 'axios'
 
 export default {
+  // 获取文章分类
+  [GET_SERVER_CLASSIFY]: function (state) {
+    axios
+      .get('http://localhost:4000/page/getClassify')
+      .then((res) => {
+        state.classifyList = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
   // 获取标题
   [GET_VALUE]: function (state, input) {
     state.title = input
@@ -29,21 +40,10 @@ export default {
     }
     // 将文章发送给后端
     axios
-      .post('http://localhost:3090/submitPage', { ...obj })
+      .post('http://localhost:4000/page/submitPage', { ...obj })
       .then((res) => {
-        var data=res.data
-        switch (data) {
-          case '存在重名文章':
-            alert('存在重名文章,请换一个标题')
-            break
-          case '文件已写入':
-            alert('文章保存成功')
-            break
-          default:
-            console.log('异常!')
-            console.log(data)
-            break
-        }
+        var data = res.data
+        alert(data)
       })
       .catch((err) => {
         console.log('res错误')

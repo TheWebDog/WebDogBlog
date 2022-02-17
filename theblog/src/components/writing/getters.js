@@ -10,4 +10,7 @@ export default {
   getHtml: function (state) {
     return marked.parse(state.context)
   },
+  getClassifyList: function (state) {
+    return state.classifyList
+  },
 }

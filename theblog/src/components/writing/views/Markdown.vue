@@ -67,10 +67,10 @@ export default {
     MDContext
   },
   computed: {
-    ...mapGetters(['getClassifyList','getTitle', 'getContext'])
+    ...mapGetters(['getClassifyList', 'getTitle', 'getContext'])
   },
   methods: {
-    ...mapActions(['get_input', 'get_textarea', 'get_classify', 'btn_submit']),
+    ...mapActions(['get_input', 'get_textarea', 'get_classify', 'btn_submit', 'get_server_classify']),
     set_input (e) {
       this.get_input(e.target.value)
     },
@@ -92,8 +92,8 @@ export default {
       this.$router.back()
     },
   },
-  // created () {
-
-  // },
+  created () {
+    this.get_server_classify()
+  },
 }
 </script>

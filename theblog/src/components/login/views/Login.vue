@@ -26,18 +26,23 @@
               icon="el-icon-user-solid"
               @click="submitLogin"
               plain
-              >登录</el-button
-            >
+              >登录
+            </el-button>
             <el-button
               type="success"
               icon="el-icon-user"
               @click="toRegister"
               plain
-              >去注册</el-button
-            >
+              >去注册
+            </el-button>
+            <el-button
+              icon="el-icon-house"
+              circle
+              plain
+              @click="to_home"
+            ></el-button>
           </div>
         </div>
-
         <div class="register_submit thesubmitdiv" :hidden="!ishiden">
           <div class="the_icon"><i class="el-icon-user"></i>注册</div>
           <el-input
@@ -54,22 +59,27 @@
             v-model="Password"
             show-password
           ></el-input>
-
           <div class="login_btn">
             <el-button
               type="primary"
               icon="el-icon-user-solid"
               @click="toLogin"
               plain
-              >去登录</el-button
-            >
+              >去登录
+            </el-button>
             <el-button
               type="success"
               icon="el-icon-user"
               @click="submitRegister"
               plain
-              >注册</el-button
-            >
+              >注册
+            </el-button>
+            <el-button
+              icon="el-icon-house"
+              circle
+              plain
+              @click="to_home"
+            ></el-button>
           </div>
         </div>
       </div>
@@ -94,6 +104,9 @@ export default {
   },
   methods: {
     // ...mapActions([]),
+    to_home () {
+      this.$router.push('/')
+    },
     toLogin () {
       this.Username = ''
       this.Password = ''
@@ -113,8 +126,8 @@ export default {
           .then((res) => {
             if (res.data.power) {
               var { power } = res.data
-              this.$cookies.set(name, { power }, '1d')
-              // console.log(this.$cookies.get(name).power)
+              this.$cookies.set('key', { power }, '1d')
+              // console.log(this.$cookies.get('key').power)
               this.$router.push('/manager')
             } else {
               alert(res.data)

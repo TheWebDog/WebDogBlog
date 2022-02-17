@@ -1,17 +1,15 @@
 <template>
   <div class="header_div">
     <div class="blog_name">
-      <div class="the_blog_name"><i class="el-icon-s-home"></i>WebDog的主页</div>
-      <el-button
-        plain
-        icon="el-icon-s-unfold"
+      <div class="the_blog_name">
+        <i class="el-icon-s-home"></i>WebDog的主页
+      </div>
+      <el-link
+        :underline="false"
+        icon="el-icon-more"
         @click="drawer = true"
         type="primary"
-        style="margin-left: 0px"
-        class="el-button-nav"
-      >
-      </el-button>
-
+      ></el-link>
       <el-drawer
         title="WebDog的主页"
         :visible.sync="drawer"
@@ -69,6 +67,12 @@
                   show-word-limit
                 ></el-input>
               </li>
+              <li class="header_li" @click="sign_out" :hidden='!loginornot'>
+                <el-link>登出</el-link>
+              </li>
+              <li class="header_li" @click="to_login" :hidden='loginornot'>
+                <el-link>登入</el-link>
+              </li>
             </ul>
           </div>
         </el-col>
@@ -86,6 +90,7 @@ export default {
       searchinput: '',
       drawer: false,
       tabPosition: 'left',
+      loginornot:this.$cookies.isKey('key'),
     }
   },
   computed: {
@@ -93,6 +98,13 @@ export default {
   },
   methods: {
     // ...mapActions(['getNav','geClassifyList']),
+    to_login () {
+      this.$router.push('/login')
+    },
+    sign_out () {
+      this.$cookies.remove('key')
+      this.$router.push('/login')
+    },
     to_home () {
       this.$router.push('/')
     },

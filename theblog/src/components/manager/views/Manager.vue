@@ -8,16 +8,12 @@
               <div class="the_blog_name">
                 <i class="el-icon-s-home"></i>WebDog的主页
               </div>
-              <el-button
-                plain
-                icon="el-icon-s-unfold"
+              <el-link
+                :underline="false"
+                icon="el-icon-more"
                 @click="Manager_drawer = true"
                 type="primary"
-                style="margin-left: 0px"
-                class="el-button-nav"
-              >
-              </el-button>
-
+              ></el-link>
               <el-drawer
                 title="WebDog的主页"
                 :visible.sync="Manager_drawer"
@@ -30,10 +26,11 @@
                     style="height: 200px"
                     @tab-click="Manager_handleClick"
                   >
-                    <el-tab-pane label="博客主页">博客主页</el-tab-pane>
-                    <el-tab-pane label="写篇文章">写篇文章</el-tab-pane>
+                    <el-tab-pane label="用户管理">用户管理</el-tab-pane>
                     <el-tab-pane label="文章管理">文章管理</el-tab-pane>
                     <el-tab-pane label="评论管理">评论管理</el-tab-pane>
+                    <el-tab-pane label="写篇文章">写篇文章</el-tab-pane>
+                    <el-tab-pane label="博客主页">博客主页</el-tab-pane>
                   </el-tabs>
                 </div>
               </el-drawer>
@@ -53,16 +50,21 @@
                 <el-col :span="19">
                   <div class="el_col_header_div">
                     <ul class="header_ul">
-                      <li class="header_li" @click="to_list">
-                        <el-link type="primary" icon="el-icon-s-promotion">
+                      <li class="header_li" @click="to_writing">
+                        <el-link type="primary" icon="el-icon-edit-outline">
                           写篇文章
                         </el-link>
                       </li>
-                      <li class="header_li">
-                        <el-link icon="el-icon-menu">文章管理</el-link>
+                      <li class="header_li" @click="to_userManagement">
+                        <el-link icon="el-icon-user">用户管理</el-link>
                       </li>
-                      <li class="header_li">
-                        <el-link icon="el-icon-s-management">评论管理</el-link>
+                      <li class="header_li" @click="to_articleManagement">
+                        <el-link icon="el-icon-tickets">文章管理</el-link>
+                      </li>
+                      <li class="header_li" @click="to_commentManagement">
+                        <el-link icon="el-icon-chat-line-round"
+                          >评论管理</el-link
+                        >
                       </li>
                       <li class="header_li">
                         <el-input
@@ -73,6 +75,9 @@
                           maxlength="10"
                           show-word-limit
                         ></el-input>
+                      </li>
+                      <li class="header_li" @click="sign_out">
+                        <el-link>登出</el-link>
                       </li>
                     </ul>
                   </div>
@@ -85,7 +90,7 @@
 
       <el-container class="Home_body">
         <el-main>
-          <div class="Home_View">
+          <div class="Home_View manager_view">
             <router-view></router-view>
           </div>
         </el-main>
@@ -126,11 +131,24 @@ export default {
   computed: {
   },
   methods: {
+    sign_out(){
+      this.$cookies.remove('key')
+      this.$router.push('/login')
+    },
     to_home () {
       this.$router.push('/')
     },
-    to_list () {
-      this.$router.push('/list')
+    to_writing () {
+      this.$router.push('/writing')
+    },
+    to_userManagement () {
+      this.$router.push('/manager/userManagement')
+    },
+    to_articleManagement () {
+      this.$router.push('/manager/articleManagement')
+    },
+    to_commentManagement () {
+      this.$router.push('/manager/commentManagement')
     },
     Manager_handleClick (tab) {
       switch (tab._props.label) {
@@ -138,13 +156,16 @@ export default {
           this.to_home()
           break;
         case '写篇文章':
-          this.to_list()
+          this.to_writing()
+          break;
+        case '用户管理':
+          this.to_userManagement()
           break;
         case '文章管理':
-
+          this.to_articleManagement()
           break;
         case '评论管理':
-
+          this.to_commentManagement()
           break;
 
         default:
@@ -153,7 +174,13 @@ export default {
     }
   },
   created () {
-
+    this.to_userManagement()
   },
 }
 </script>
+
+<style>
+.manager_view {
+  min-height: 500px;
+}
+</style>
