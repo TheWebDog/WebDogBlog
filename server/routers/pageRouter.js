@@ -4,6 +4,10 @@ const fsPromises = require('fs').promises
 const async = require('async')
 const PageModel = require('../models/page')
 const pinyinPro = require('pinyin-pro').pinyin
+const path = require('path')
+
+const multiparty = require('multiparty') // 处理fromdata图片的中间件
+var url = require('url')
 
 // 录入信息函数
 var informationEntry = async function (classify, title) {
@@ -37,42 +41,87 @@ function diff(arr1, arr2) {
 
 // 接口--------------------------------------------------------------------------------
 
+// 图片
+// md文章图片获取
+// 格式要求：res.send(`http://localhost:4000/page/getPic?picUrl=${XXX}`)
+router.get('/getPic', function (req, res) {
+  var { picUrl } = req.query
+  res.sendFile(path.resolve(`./${picUrl}`))
+})
+// md文章图片删除
+// 格式要求：res.send(`http://localhost:4000/page/removePic?picUrl=${XXX}`)
+router.get('/removePic', function (req, res) {
+  var { picUrl } = req.query
+  fsPromises.unlink(`./${picUrl}`)
+  res.send('removed')
+})
+// md文章图片增添
+router.post('/submitMavonPic', function (req, res) {
+  // 对图片的处理
+  var form_pic = new multiparty.Form({ uploadDir: './articles/images' })
+  form_pic.parse(req, async (err, fields, files) => {
+    if (err) {
+      console.log('submitMavonPic时err了')
+      res.send('submitMavonPic时err了')
+    } else {
+      var pic_path = files.mavon_editor_pic[0].path
+      var requirePath = `http://localhost:4000/page/getPic?picUrl=${pic_path}`
+      res.send({ requirePath, pic_path })
+    }
+  })
+})
+
 // 接收文章
 router.post('/submitPage', function (req, res) {
-  // 获取数据
-  var { title, content, md_content, classify } = req.body
-  // 对数据进行限制
-  if (title.length <= 24 && md_content.length <= 30000 && classify.length <= 30) {
-    // 数据合格保存文章成md文件
-    ;(async () => {
-      var files = await fsPromises.readdir('./articles')
-      if (!files.includes(classify)) {
-        // 创建分类文件夹
-        await fsPromises.mkdir(`./articles/${classify}`)
-      }
-      var files2 = await fsPromises.readdir(`./articles/${classify}`)
-      if (!files2.includes(`${title}.md`)) {
-        var data = await fsPromises.readFile('./public/template.md', 'utf-8')
-        var FinalContent = data
-          .replace('$title', title)
-          .replace('$classify', classify)
-          .replace('$content', md_content)
-        await fsPromises.writeFile(
-          `./articles/${classify}/${title}.md`,
-          FinalContent
-        )
-        await informationEntry(classify, title)
-        res.send('文件已写入')
+  ;(async () => {
+    var form_pic = new multiparty.Form({ uploadDir: './articles/images' })
+    form_pic.parse(req, async (err, fields, files) => {
+      if (err) {
+        console.log('submitPage时err了')
+        res.send('submitPage时err了')
       } else {
-        res.send('存在重名文章')
-        // return Promise.reject('存在重名文章')
-        return
+        var { title, category, synopsis, md, html, mdPic } = fields
+        // 我去太奶奶的 竟然都是数组 就那么一项 给我整数组嘎哈 靠靠靠靠靠 mlgbz的
+        var title = title[0]
+        var category = category[0]
+        var synopsis = synopsis[0]
+        var md = md[0]
+        var html = html[0]
+        var pic_path = files.pic[0].path
+        mdPic.push(pic_path)
+        var coverRequirePath = `http://localhost:4000/page/getPic?picUrl=${pic_path}`
+        var now = new Date()
+        var day = now.getDate()
+        var month = now.getMonth() + 1
+        var year = now.getFullYear()
+        var pinyinAndTitle =
+        pinyinPro(title, { toneType: 'none' })
+          .split(' ')
+          .join('')
+          .toLowerCase() + title
+        const thepage = new PageModel({
+          title,
+          pinyinAndTitle,
+          coverRequirePath,
+          category,
+          synopsis,
+          date: `${year}-${month}-${day}`, // 日期
+          md,
+          html,
+          mdPic,
+        })
+        thepage.save(function (err, result) {                  //执行
+              if(err){
+                console.log(err, '-----------err')
+                res.send('成功')
+              }else{
+                console.log(result, '-----------res')
+                res.send('失败')
+              }
+          })
       }
-    })()
-  } else {
-    // 数据不合格
-    res.send('可能标题过长、文章内容、分类名过长')
-  }
+    })
+  })()
 })
 
 // 获取分类列表

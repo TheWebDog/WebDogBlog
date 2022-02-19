@@ -52,6 +52,13 @@ export default new VueRouter({
       },
       children: [
         {
+          path: '/writing',
+          name: 'writing',
+          component: () => {
+            return import('./components/writing/views/Writing.vue')
+          },
+        },
+        {
           path: 'userManagement',
           name: 'userManagement',
           component: () => {
@@ -79,13 +86,6 @@ export default new VueRouter({
           },
         },
       ],
-    },
-    {
-      path: '/writing',
-      name: 'writing',
-      component: () => {
-        return import('./components/writing/views/Markdown.vue')
-      },
     },
     {
       path: '/',

@@ -3,7 +3,7 @@ import state from './state'
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
-import Markdown from './views/Markdown'
+import Writing from './views/Writing.vue'
 
 // 整合searchStore
 const markdownStore = {
@@ -14,4 +14,4 @@ const markdownStore = {
 }
 
 // 导出
-export { markdownStore, Markdown }
+export { markdownStore, Writing }

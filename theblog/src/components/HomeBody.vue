@@ -7,7 +7,6 @@
       fit="cover"
     ></el-image>
     </div>
-
     <List></List>
   </div>
 </template>

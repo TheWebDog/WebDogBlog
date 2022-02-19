@@ -1,6 +1,7 @@
 <template>
   <div class="header_div">
-    <div class="blog_name">
+    <!-- 大屏时销毁此部分 -->
+    <div class="blog_name" v-if="!media_over_width900px">
       <div class="the_blog_name">
         <i class="el-icon-s-home"></i>WebDog的主页
       </div>
@@ -31,7 +32,8 @@
         </div>
       </el-drawer>
     </div>
-    <div class="header_div1">
+    <!-- 小屏时销毁此部分 -->
+    <div class="header_div1" v-if="media_over_width900px">
       <el-row :gutter="20">
         <el-col :span="5" class="blog_name2">
           <el-link>
@@ -67,10 +69,10 @@
                   show-word-limit
                 ></el-input>
               </li>
-              <li class="header_li" @click="sign_out" :hidden='!loginornot'>
+              <li class="header_li" @click="sign_out" :hidden="!loginornot">
                 <el-link>登出</el-link>
               </li>
-              <li class="header_li" @click="to_login" :hidden='loginornot'>
+              <li class="header_li" @click="to_login" :hidden="loginornot">
                 <el-link>登入</el-link>
               </li>
             </ul>
@@ -90,11 +92,15 @@ export default {
       searchinput: '',
       drawer: false,
       tabPosition: 'left',
-      loginornot:this.$cookies.isKey('key'),
+      loginornot: this.$cookies.isKey('key'),
+      windoWidth: document.documentElement.clientWidth,
     }
   },
   computed: {
     // ...mapGetters(['getClassifyList']),
+    media_over_width900px () {
+      return this.windoWidth > 900
+    },
   },
   methods: {
     // ...mapActions(['getNav','geClassifyList']),

@@ -1,118 +1,44 @@
 <template>
-  <div class="Home_div manager_div">
+  <div class="manager_div">
     <el-container>
       <el-header>
-        <div class="Home_Header">
-          <div class="header_div">
-            <div class="blog_name">
-              <div class="the_blog_name">
-                <i class="el-icon-s-home"></i>WebDog的主页
-              </div>
-              <el-link
-                :underline="false"
-                icon="el-icon-more"
-                @click="Manager_drawer = true"
-                type="primary"
-              ></el-link>
-              <el-drawer
-                title="WebDog的主页"
-                :visible.sync="Manager_drawer"
-                :with-header="true"
-                direction="ltr"
-              >
-                <div>
-                  <el-tabs
-                    :tab-position="Manager_tabPosition"
-                    style="height: 200px"
-                    @tab-click="Manager_handleClick"
-                  >
-                    <el-tab-pane label="用户管理">用户管理</el-tab-pane>
-                    <el-tab-pane label="文章管理">文章管理</el-tab-pane>
-                    <el-tab-pane label="评论管理">评论管理</el-tab-pane>
-                    <el-tab-pane label="写篇文章">写篇文章</el-tab-pane>
-                    <el-tab-pane label="博客主页">博客主页</el-tab-pane>
-                  </el-tabs>
-                </div>
-              </el-drawer>
-            </div>
-            <div class="header_div1">
-              <el-row :gutter="20">
-                <el-col :span="5" class="blog_name2">
-                  <el-link>
-                    <div
-                      class="el_col_header_div the_blog_name2"
-                      @click="to_home"
-                    >
-                      WebDog的主页<i class="el-icon-s-home"></i>
-                    </div>
-                  </el-link>
-                </el-col>
-                <el-col :span="19">
-                  <div class="el_col_header_div">
-                    <ul class="header_ul">
-                      <li class="header_li" @click="to_writing">
-                        <el-link type="primary" icon="el-icon-edit-outline">
-                          写篇文章
-                        </el-link>
-                      </li>
-                      <li class="header_li" @click="to_userManagement">
-                        <el-link icon="el-icon-user">用户管理</el-link>
-                      </li>
-                      <li class="header_li" @click="to_articleManagement">
-                        <el-link icon="el-icon-tickets">文章管理</el-link>
-                      </li>
-                      <li class="header_li" @click="to_commentManagement">
-                        <el-link icon="el-icon-chat-line-round"
-                          >评论管理</el-link
-                        >
-                      </li>
-                      <li class="header_li">
-                        <el-input
-                          class="search"
-                          prefix-icon="el-icon-search"
-                          v-model="Manager_searchinput"
-                          placeholder="请输入内容"
-                          maxlength="10"
-                          show-word-limit
-                        ></el-input>
-                      </li>
-                      <li class="header_li" @click="sign_out">
-                        <el-link>登出</el-link>
-                      </li>
-                    </ul>
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-          </div>
+        <div class="manager_header">
+          <!--定义鼠标经过时鼠标图型样式-->
+          <i class="el-icon-menu manager_icon" @click="IsCollapse"></i>
+          <span>博客后台</span>
+          <span class="manager_sign_out" @click="sign_out">
+            <el-link :underline="false">登出</el-link>
+          </span>
         </div>
       </el-header>
-
-      <el-container class="Home_body">
-        <el-main>
-          <div class="Home_View manager_view">
-            <router-view></router-view>
-          </div>
+      <el-container class="manager_body">
+        <el-aside width="IsCollapse ? 50px : 300px">
+          <!--collapse 水平收起菜单-->
+          <el-menu
+            default-active="2"
+            background-color="rgba(238,238,238,.2)"
+            text-color="#666"
+            active-text-color="#79171c"
+            class="el-menu-vertical-demo"
+            :collapse="manager_isCollapse"
+            :collapse-transition="true"
+          >
+            <!-- index的值要为字符串 -->
+            <el-menu-item
+              :index="item.index.toString()"
+              v-for="item in MenuList"
+              :key="item.index"
+              @click="Manager_handleClick(item.RouterName)"
+            >
+              <i :class="item.icon"></i>
+              <span slot="title">{{ item.title }}</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main class="manager_el_main">
+          <router-view></router-view>
         </el-main>
       </el-container>
-
-      <el-footer>
-        <div class="Home_Footer">
-          <div class="footer_div">
-            <el-row :gutter="20">
-              <el-col :span="4">
-                <div class="el_col_footer_div">-</div>
-              </el-col>
-              <el-col :span="16">
-                <div class="el_col_footer_div">底部文字</div>
-              </el-col>
-              <el-col :span="4">
-                <div class="el_col_footer_div">-</div>
-              </el-col>
-            </el-row>
-          </div>
-        </div>
-      </el-footer>
     </el-container>
   </div>
 </template>
@@ -123,15 +49,59 @@ export default {
   name: "Manager",
   data () {
     return {
-      Manager_searchinput: '',
-      Manager_drawer: false,
-      Manager_tabPosition: 'left',
+      // Manager_searchinput: '',
+      // Manager_drawer: false,
+      // Manager_tabPosition: 'left',
+
+      MenuList: [
+        {
+          index: 1,
+          title: "发布文章",
+          icon: "el-icon-edit-outline",
+          RouterName: "发布文章"
+        },
+        {
+          index: 2,
+          title: "文章管理",
+          icon: "el-icon-tickets",
+          RouterName: "文章管理"
+        },
+        {
+          index: 3,
+          title: "评论管理",
+          icon: "el-icon-chat-line-round",
+          RouterName: "评论管理"
+        },
+        {
+          index: 4,
+          title: "用户管理",
+          icon: "el-icon-user",
+          RouterName: "用户管理"
+        },
+        {
+          index: 5,
+          title: "回到主页",
+          icon: "el-icon-chat-line-round",
+          RouterName: "回到主页"
+        },
+      ],
+      manager_isCollapse: document.body.clientWidth<460? true: false,
     }
   },
   computed: {
   },
+  watch: {
+    /* 监听*/
+    screenWidth (val) {
+      this.screenWidth = val;
+      console.log("this.screenWidth", this.screenWidth)
+    }
+  },
   methods: {
-    sign_out(){
+    IsCollapse () {
+      this.manager_isCollapse = !this.manager_isCollapse; // 菜单是否隐藏
+    },
+    sign_out () {
       this.$cookies.remove('key')
       this.$router.push('/login')
     },
@@ -151,11 +121,11 @@ export default {
       this.$router.push('/manager/commentManagement')
     },
     Manager_handleClick (tab) {
-      switch (tab._props.label) {
-        case '博客主页':
+      switch (tab) {
+        case '回到主页':
           this.to_home()
           break;
-        case '写篇文章':
+        case '发布文章':
           this.to_writing()
           break;
         case '用户管理':
@@ -174,13 +144,7 @@ export default {
     }
   },
   created () {
-    this.to_userManagement()
+    this.to_writing()
   },
 }
 </script>
-
-<style>
-.manager_view {
-  min-height: 500px;
-}
-</style>

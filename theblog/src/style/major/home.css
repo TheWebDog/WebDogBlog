@@ -44,3 +44,24 @@ body::-webkit-scrollbar {
   position: sticky !important;
   top: 10px;
 }
+
+/* .Aside_small_width_div{
+} */
+.aside_el_drawer > div > div {
+  min-width: 300px;
+  max-width: 300px;
+}
+.el-drawer__body::-webkit-scrollbar {
+  width: 0;
+}
+.aside_el_drawer > div > div >section{
+  margin-top: -100px;
+}
+.Aside_btn{
+  position: fixed;
+  right: -20px;
+  top: 300px;
+}
+.Aside_btn:hover{
+  right: -10px;
+}

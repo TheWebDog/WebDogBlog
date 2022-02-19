@@ -130,7 +130,7 @@ export default {
               // console.log(this.$cookies.get('key').power)
               this.$router.push('/manager')
             } else {
-              alert(res.data)
+              this.$message.error(res.data);
             }
 
           })
@@ -138,7 +138,10 @@ export default {
             console.log(err)
           })
       } else {
-        alert("请输入用户名和密码")
+        this.$message({
+          message: "请输入用户名和密码",
+          type: 'warning'
+        });
       }
 
     },
@@ -149,13 +152,16 @@ export default {
         axios
           .post('http://localhost:4000/user/register', { name, password })
           .then((res) => {
-            alert(res.data)
+            this.$message.error(res.data);
           })
           .catch((err) => {
             console.log(err)
           })
       } else {
-        alert("请输入用户名和密码")
+                this.$message({
+          message: '请输入用户名和密码',
+          type: 'warning'
+        });
       }
     },
   },

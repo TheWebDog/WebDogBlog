@@ -1,7 +1,19 @@
 @media (min-width: 901px) {
-  .blog_name{
-    display: none;
+  /* .writing_header{
+    width: 700px;
+    display: flex;
+    box-sizing: border-box;
+    margin: auto;
   }
+  .writing_header_left,.writing_header_right{
+    width: 50%;
+  }
+  .writing_body{
+    padding-left: 5px;
+    width: 700px;
+    box-sizing: border-box;
+    margin: auto;
+  } */
 }
 @media (min-width: 1200px){
   .Home_body{
@@ -23,6 +35,23 @@
   }
   .el_card_generalization{
     max-width: 400px;
+  }
+
+
+    .writing_header{
+    width: 900px;
+    display: flex;
+    box-sizing: border-box;
+    margin: auto;
+  }
+  .writing_header_left,.writing_header_right{
+    width: 50%;
+  }
+  .writing_body{
+    padding-left: 5px;
+    /* width: 900px; */
+    box-sizing: border-box;
+    margin: auto;
   }
 }
 

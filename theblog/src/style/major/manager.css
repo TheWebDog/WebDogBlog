@@ -1,0 +1,37 @@
+.manager_header{
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+  position: relative;
+  text-align: center;
+  font-weight: 900;
+}
+.manager_header>.manager_sign_out>.el-link{
+  font-weight: 900;
+}
+.manager_icon{
+  position: absolute;
+  left: 0px;
+  cursor: pointer;
+}
+.manager_sign_out{
+  position: absolute;
+  right: 0px;
+}
+
+.manager_body{
+  min-height: 600px;
+}
+
+.el-menu--collapse{
+  width: 50px !important;
+}
+.el-aside>ul>li{
+  padding: 0 5px !important;
+}
+.el-aside>ul>li>div{
+  padding: 0 !important;
+  text-align: center;
+  /* transition: all 0s ease-out !important; */
+}

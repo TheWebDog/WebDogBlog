@@ -1,13 +1,18 @@
+.aside_el_aside{
+  padding-right: 100px;
+}
+
+
 .aside_div {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
   padding-top: 25px;
-  padding-right: 100px;
+  
   /* position: relative; */
 
   overflow: auto !important;
-  min-height: 800px;
+  min-height: 600px;
 }
 
 .about {
