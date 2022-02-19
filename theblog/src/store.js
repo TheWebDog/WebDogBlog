@@ -11,10 +11,18 @@ import { loginStore } from './components/login'
 import { managerStore } from './components/manager'
  
 
+import { writingStore } from './components/writing'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
+    writingStore,
+
+
+
+
+    
     headerStore,
     footerStore,
     listStore,

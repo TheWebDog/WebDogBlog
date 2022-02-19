@@ -6,7 +6,7 @@ import mutations from './mutations'
 import Writing from './views/Writing.vue'
 
 // 整合searchStore
-const markdownStore = {
+const writingStore = {
   state,
   getters,
   actions,
@@ -14,4 +14,4 @@ const markdownStore = {
 }
 
 // 导出
-export { markdownStore, Writing }
+export { writingStore, Writing }

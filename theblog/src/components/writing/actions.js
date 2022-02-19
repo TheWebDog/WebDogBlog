@@ -1,19 +1,15 @@
-// import { GET_ETXTAREA, GET_VALUE,GET_CLASSIFY ,SUBMIT,GET_SERVER_CLASSIFY} from './type'
-
+import {GET_SERVER_CLASSIFY,UPLOAD_File,SET_File,SAVE_File} from './type'
 export default {
-  // get_server_classify: function (context) {
-  //   context.commit(GET_SERVER_CLASSIFY)
-  // },
-  // get_input: function (context, input) {
-  //   context.commit(GET_VALUE, input)
-  // },
-  // get_textarea: function (context, textarea) {
-  //   context.commit(GET_ETXTAREA, textarea)
-  // },
-  // get_classify: function (context, classify) {
-  //   context.commit(GET_CLASSIFY, classify)
-  // },
-  // btn_submit: function (context) {
-  //   context.commit(SUBMIT)
-  // },
+  action_querySearchAsync: function (context) {
+    context.commit(GET_SERVER_CLASSIFY)
+  },
+  action_uploadSectionFile: function (context,param) {
+    context.commit(UPLOAD_File,param)
+  },
+  action_PublishButton: function (context,data) {
+    context.commit(SET_File,data)
+  },
+  action_PublishSave: function (context,saveData) {
+    context.commit(SAVE_File,saveData)
+  },
 }

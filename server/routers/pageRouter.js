@@ -3,6 +3,7 @@ const router = express.Router()
 const fsPromises = require('fs').promises
 const async = require('async')
 const PageModel = require('../models/page')
+const SavePageModel = require('../models/savePage')
 const pinyinPro = require('pinyin-pro').pinyin
 const path = require('path')
 
@@ -58,7 +59,7 @@ router.get('/removePic', function (req, res) {
 // md文章图片增添
 router.post('/submitMavonPic', function (req, res) {
   // 对图片的处理
-  var form_pic = new multiparty.Form({ uploadDir: './articles/images' })
+  var form_pic = new multiparty.Form({ uploadDir: './public/images' })
   form_pic.parse(req, async (err, fields, files) => {
     if (err) {
       console.log('submitMavonPic时err了')
@@ -74,7 +75,7 @@ router.post('/submitMavonPic', function (req, res) {
 // 接收文章
 router.post('/submitPage', function (req, res) {
   ;(async () => {
-    var form_pic = new multiparty.Form({ uploadDir: './articles/images' })
+    var form_pic = new multiparty.Form({ uploadDir: './public/images' })
     form_pic.parse(req, async (err, fields, files) => {
       if (err) {
         console.log('submitPage时err了')
@@ -95,10 +96,10 @@ router.post('/submitPage', function (req, res) {
         var month = now.getMonth() + 1
         var year = now.getFullYear()
         var pinyinAndTitle =
-        pinyinPro(title, { toneType: 'none' })
-          .split(' ')
-          .join('')
-          .toLowerCase() + title
+          pinyinPro(title, { toneType: 'none' })
+            .split(' ')
+            .join('')
+            .toLowerCase() + title
         const thepage = new PageModel({
           title,
           pinyinAndTitle,
@@ -110,27 +111,97 @@ router.post('/submitPage', function (req, res) {
           html,
           mdPic,
         })
-        thepage.save(function (err, result) {                  //执行
-              if(err){
-                console.log(err, '-----------err')
-                res.send('成功')
-              }else{
-                console.log(result, '-----------res')
-                res.send('失败')
-              }
-          })
+        thepage.save(function (err, result) {
+          //执行
+          if (err) {
+            console.log(err, '-----------err')
+            res.send('成功')
+          } else {
+            console.log(result, '-----------res')
+            res.send('失败')
+          }
+        })
+      }
+    })
+  })()
+})
+// 保存草稿
+router.post('/savePage', function (req, res) {
+  ;(async () => {
+    var form_pic = new multiparty.Form({ uploadDir: './public/images' })
+    form_pic.parse(req, async (err, fields, files) => {
+      if (err) {
+        console.log('savePage时err了')
+        res.send('savePage时err了')
+      } else {
+        var { title, category, synopsis, md, mdPic } = fields
+        var title = title[0] ? title[0] : null
+        var category = category[0]  ? category[0] : null
+        var synopsis = synopsis[0]  ? synopsis[0] : null
+        var md = md[0] ? md[0] : null
+        
+        var pic_path = files.pic ? files.pic[0].path : null
+        mdPic==['']?mdPic=[]:mdPic
+        pic_path?mdPic.push(pic_path):mdPic=null
+        var coverRequirePath = pic_path?`http://localhost:4000/page/getPic?picUrl=${pic_path}`:null
+
+        const savePage = new SavePageModel({
+          title,
+          coverRequirePath,
+          category,
+          synopsis,
+          md,
+          mdPic,
+        })
+        savePage.save(function (err, result) {
+          //执行
+          if (err) {
+            console.log(err, '-----------err')
+            res.send('成功')
+          } else {
+            console.log(result, '-----------res')
+            res.send('失败')
+          }
+        })
       }
     })
   })()
 })
 
+
+
+
+
+
 // 获取分类列表
 router.get('/getClassify', function (req, res) {
   ;(async () => {
-    var files = await fsPromises.readdir('./articles')
-    res.send(files)
+    PageModel
+      .find({})
+      .then((resault) => {
+        var classifyList = [];
+        for (var i = 0; i < resault.length; i++) {
+          var obj={"value":resault[i].category}
+            if (classifyList .indexOf(obj) === -1) {
+              classifyList .push(obj)
+            }
+        }
+        res.send(classifyList)
+      })
+      .catch((err) => {
+        console.log(err,'---err')
+        res.send('查询失败')
+      })
   })()
 })
+
+
+
+
+
+
+
+
 
 // 通过分类获取文章
 router.post('/getList', function (req, res) {

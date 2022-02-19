@@ -15,7 +15,7 @@
         <el-aside width="IsCollapse ? 50px : 300px">
           <!--collapse 水平收起菜单-->
           <el-menu
-            default-active="2"
+            default-active="1"
             background-color="rgba(238,238,238,.2)"
             text-color="#666"
             active-text-color="#79171c"
