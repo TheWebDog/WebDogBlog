@@ -1,4 +1,4 @@
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .writing_header{
     max-width: 450px;
     min-width: 300px;
@@ -14,10 +14,11 @@
     box-sizing: border-box;
     padding: 20px 5px;
   }
-
-  .Home_el_main {
+  
+  .Home_el_main{
     padding: 0px !important;
   }
+
   .el-drawer {
     width: 220px !important;
   }
@@ -30,7 +31,7 @@
     max-width: 100px;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
   /* .el-aside {
     display: none;
   } */
@@ -38,6 +39,7 @@
     height: 150px;
   }
   .el_card_el_image{
+    width: 150px;
     height: 98px;
   }
   .el_card_title{
@@ -46,9 +48,11 @@
     line-height: 16px;
   }
 }
-@media (min-width: 901px) and (max-width: 1200px){
-  .Home_el_main {
-    padding: 5px 150px !important;
+@media (min-width: 801px) and (max-width: 1100px){
+  .Home_body {
+    box-sizing: border-box;
+    max-width: 700px;
+    margin: 5px auto;
   }
   .el_card_generalization,
   .el_card_author{
@@ -59,7 +63,7 @@
   }
 
   .writing_header{
-    max-width: 900px;
+    max-width: 800px;
     display: flex;
     box-sizing: border-box;
     margin: auto;

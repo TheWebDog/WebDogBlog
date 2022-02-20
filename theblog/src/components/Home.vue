@@ -20,14 +20,14 @@
         <!-- 小屏时销毁此部分 -->
         <el-aside
           class="aside_el_aside"
-          width="400px"
-          v-if="media_over_width1200px"
+          width="330px"
+          v-if="media_over_width1100px"
         >
           <Aside></Aside>
         </el-aside>
       </el-container>
       <!-- 大屏时销毁此部分 -->
-      <div v-if="!media_over_width1200px">
+      <div v-if="!media_over_width1100px">
         <div class="Aside_btn">
           <el-button
             type="primary"
@@ -77,14 +77,14 @@ export default {
     }
   },
   computed: {
-    media_over_width900px () {
-      return this.windoWidth > 900
+    media_over_width800px () {
+      return this.windoWidth > 800
     },
-    media_over_width1200px () {
-      return this.windoWidth > 1200
+    media_over_width1100px () {
+      return this.windoWidth > 1100
     },
-    media_width_in_901px_and_1200px () {
-      return this.windoWidth > 900 && this.windoWidth < 1200
+    media_width_in_801px_and_1100px () {
+      return this.windoWidth > 800 && this.windoWidth < 1100
     },
   },
 

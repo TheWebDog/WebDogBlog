@@ -1,4 +1,4 @@
-@media (min-width: 901px) {
+@media (min-width: 801px) {
   /* .writing_header{
     width: 700px;
     display: flex;
@@ -15,44 +15,43 @@
     margin: auto;
   } */
 }
-@media (min-width: 1200px){
-  .Home_body{
+@media (min-width: 1100px) {
+  .Home_body {
     box-sizing: border-box;
-    width: 1200px;
+    max-width: 1200px;
     margin: 5px auto;
   }
-  .list_li{
+  .list_li {
     height: 200px;
   }
-  .el_card_el_image{
+  .el_card_el_image {
+    width: 200px;
     height: 148px;
   }
-  .el_card_title{
+  .el_card_title {
     height: 20px;
     font-size: 20px;
     line-height: 20px;
     max-width: 400px;
   }
-  .el_card_generalization{
+  .el_card_generalization {
     max-width: 400px;
   }
 
-
-    .writing_header{
-    width: 900px;
+  .writing_header {
+    width: 800px;
     display: flex;
     box-sizing: border-box;
     margin: auto;
   }
-  .writing_header_left,.writing_header_right{
+  .writing_header_left,
+  .writing_header_right {
     width: 50%;
   }
-  .writing_body{
+  .writing_body {
     padding-left: 5px;
-    /* width: 900px; */
+    /* width: 800px; */
     box-sizing: border-box;
     margin: auto;
   }
 }
-
-

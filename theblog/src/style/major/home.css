@@ -20,7 +20,9 @@ body::-webkit-scrollbar {
   width: 0px;
   display: none;
 }
-
+.el-main{
+  box-sizing: border-box;
+}
 .el-header,
 .el-footer,
 .Home_Header,
@@ -39,10 +41,6 @@ body::-webkit-scrollbar {
   box-sizing: border-box;
   margin: 5px auto;
   padding: 0px 10px;
-}
-.el-aside {
-  position: sticky !important;
-  top: 10px;
 }
 
 /* .Aside_small_width_div{
