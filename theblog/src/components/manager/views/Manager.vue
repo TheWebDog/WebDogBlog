@@ -105,7 +105,7 @@ export default {
       this.$router.push('/')
     },
     to_writing () {
-      this.$router.push('/writing')
+      this.$router.push('/manager')
     },
     to_userManagement () {
       this.$router.push('/manager/userManagement')
@@ -140,7 +140,6 @@ export default {
     }
   },
   created () {
-    this.to_writing()
   },
 }
 </script>

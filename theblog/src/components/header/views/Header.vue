@@ -84,7 +84,7 @@
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "Header",
   data () {
@@ -97,13 +97,13 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters(['getClassifyList']),
+    ...mapGetters([]),
     media_over_width900px () {
       return this.windoWidth > 900
     },
   },
   methods: {
-    // ...mapActions(['getNav','geClassifyList']),
+    ...mapActions(['action_getArticleList']),
     to_login () {
       this.$router.push('/login')
     },
@@ -142,7 +142,7 @@ export default {
     }
   },
   created () {
-
+    this.action_getArticleList()
   },
 }
 </script>

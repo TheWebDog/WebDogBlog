@@ -52,7 +52,7 @@ export default new VueRouter({
       },
       children: [
         {
-          path: '/writing',
+          path: '',
           name: 'writing',
           component: () => {
             return import('./components/writing/views/Writing.vue')

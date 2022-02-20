@@ -34,6 +34,7 @@
             @click="home_drawer = true"
             icon="el-icon-arrow-left"
             circle
+            plain
           ></el-button>
         </div>
         <el-drawer
