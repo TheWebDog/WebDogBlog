@@ -1,1 +1,1 @@
-// export const GET_NAV = 'GET_NAV'
+export const GET_ARTICLEPAGE = 'GET_ARTICLEPAGE'

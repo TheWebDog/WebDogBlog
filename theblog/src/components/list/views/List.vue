@@ -3,18 +3,17 @@
     <el-row :gutter="12">
       <el-col :span="24">
         <ul class="list_ul">
-          <li class="list_li" v-for="(item, index) in 5" :key="index" @click="to_article(item)">
+          <li class="list_li" v-for="(item, index) in get_articleList" :key="index" @click="to_article(item._id)">
             <el-card class="list_li_div" shadow="hover">
               <el-image
                 class="el_card_el_image"
-                src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic3.zhimg.com%2Fv2-27e40447e4827ca0ac9424b8f37f6493_180x120.jpg&refer=http%3A%2F%2Fpic3.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647517541&t=85d311a6f2287001d45826b217edd758"
-                fit="cover"
+                :src="item.coverRequirePath"
+                fit="contain"
               ></el-image>
-              <div class="el_card_title">标题24个字</div>
-              <div class="el_card_generalization">简介45个字</div>
-              <div class="el_card_author">作者</div>
-              <el-tag class="el_card_time" type="info">时间</el-tag>
-              <el-tag class="el_card_tag">JavaScript</el-tag>
+              <div class="el_card_title">{{item.title}}</div>
+              <div class="el_card_generalization">{{item.synopsis}}</div>
+              <el-tag class="el_card_time" type="info">{{item.date}}</el-tag>
+              <el-tag class="el_card_tag">{{item.category}}</el-tag>
             </el-card>
           </li>
         </ul>
@@ -27,32 +26,31 @@
       layout="prev, pager, next"
       :page-size="10"
       :pager-count="5"
-      :total="500"
+      :total="get_articleList.length"
     >
     </el-pagination>
   </div>
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "List",
   data () {
     return {
-
     }
   },
   computed: {
-    // ...mapGetters(['getClassifyList']),
+    ...mapGetters(['get_articleList']),
   },
   methods: {
-    // ...mapActions(['getNav','geClassifyList']),
+    ...mapActions(['action_getArticleList']),
     to_article (item) {
       this.$router.push(`/article/${item}`)
     },
   },
   created () {
-
+    // this.action_getArticleList()
   },
 }
 </script>

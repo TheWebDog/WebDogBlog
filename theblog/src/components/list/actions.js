@@ -1,6 +1,6 @@
-// import { GET_NAV } from './type'
+import { GET_ARTICLELIST } from './type'
 export default {
-  // getNav: function (context) {
-  //   context.commit(GET_NAV)
-  // },
+  action_getArticleList: function (context) {
+    context.commit(GET_ARTICLELIST)
+  },
 }

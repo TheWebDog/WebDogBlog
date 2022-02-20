@@ -1,5 +1,5 @@
 export default {
-  // getClassifyList: function (state) {
-  //   return state.classifyList
-  // },
+  get_ArticlePage: function (state) {
+    return state.article
+  },
 }

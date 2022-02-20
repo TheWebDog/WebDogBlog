@@ -1,14 +1,14 @@
-// import axios from 'axios'
-// import { GET_NAV } from './type'
+import axios from 'axios'
+import { GET_ARTICLELIST } from './type'
 export default {
-  // [GET_NAV]: function (state) {
-  //   axios
-  //     .get('http://localhost:3090/getClassify')
-  //     .then((res) => {
-  //       state.classifyList = res.data
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // },
+  [GET_ARTICLELIST]: function (state) {
+    axios
+      .get('http://localhost:4000/page/getList')
+      .then((res) => {
+        state.articleList = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
 }

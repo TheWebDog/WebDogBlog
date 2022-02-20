@@ -6,7 +6,7 @@
           <h1 style="text-align: center">发布文章</h1>
           <el-input
             v-model="title"
-            placeholder="请输入文章标题"
+            placeholder="请输入文章标题(小于24个字)"
             clearable
           ></el-input>
 
@@ -20,7 +20,7 @@
             class="writing_synopsis"
             type="textarea"
             :rows="3"
-            placeholder="简介"
+            placeholder="简介(小于45个字)"
             v-model="synopsis"
             resize="none"
           >

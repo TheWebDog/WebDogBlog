@@ -1,6 +1,6 @@
-// import { GET_NAV } from './type'
+import { GET_ARTICLEPAGE } from './type'
 export default {
-  // getNav: function (context) {
-  //   context.commit(GET_NAV)
-  // },
+  action_getArticlePage: function (context,id) {
+    context.commit(GET_ARTICLEPAGE,{id})
+  },
 }

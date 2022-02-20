@@ -1,6 +1,7 @@
 
 /* 默认css */
 /* @import url('./major/MD.css'); */
+@import url('./major/article.css');
 @import url('./major/writing.css');
 @import url('./major/manager.css');
 @import url('./major/aside.css');
