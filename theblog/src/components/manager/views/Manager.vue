@@ -36,7 +36,7 @@
           </el-menu>
         </el-aside>
         <el-main class="manager_el_main">
-          <router-view></router-view>
+          <router-view v-if="$store.state.isRouterAlive"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -49,10 +49,6 @@ export default {
   name: "Manager",
   data () {
     return {
-      // Manager_searchinput: '',
-      // Manager_drawer: false,
-      // Manager_tabPosition: 'left',
-
       MenuList: [
         {
           index: 1,
@@ -85,7 +81,7 @@ export default {
           RouterName: "回到主页"
         },
       ],
-      manager_isCollapse: document.body.clientWidth<460? true: false,
+      manager_isCollapse: document.body.clientWidth < 460 ? true : false,
     }
   },
   computed: {

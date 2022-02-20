@@ -34,10 +34,19 @@ export default {
       })
       .then((res) => {
         console.log(res.data)
-        // 清空上传的保存
-        this.uploadFromData = new FormData()
-        // 清空临时的保存
-        this.saveFromData = new FormData()
+        switch (res.data) {
+          case '成功':
+            alert('上传成功')
+            // 清空上传的保存
+            state.uploadFromData = new FormData()
+            break
+          case '失败':
+            alert('上传失败')
+            break
+          default:
+            alert('未知错误,可能是submitPage时err了')
+            break
+        }
       })
       .catch((err) => {
         console.log(err, '--发生axios错误')
@@ -47,19 +56,19 @@ export default {
   // 保存文章-草稿
   [SAVE_File]: function (state, saveData) {
     axios
-    .post('http://localhost:4000/page/savePage', saveData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-    .then((res) => {
-      console.log(res.data)
-      // 清空上传的保存
-      this.uploadFromData = new FormData()
-      // 清空临时的保存
-      this.saveFromData = new FormData()
-    })
-    .catch((err) => {
-      console.log(err, '--发生axios错误')
-      console.log(saveData, '--theData表单')
-    })
+      .post('http://localhost:4000/page/savePage', saveData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((res) => {
+        console.log(res.data)
+        // 清空上传的保存
+        this.uploadFromData = new FormData()
+        // 清空临时的保存
+        this.saveFromData = new FormData()
+      })
+      .catch((err) => {
+        console.log(err, '--发生axios错误')
+        console.log(saveData, '--theData表单')
+      })
   },
 }

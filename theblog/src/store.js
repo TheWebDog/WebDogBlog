@@ -16,6 +16,19 @@ import { writingStore } from './components/writing'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  state: {
+    isRouterAlive: true,  // 用于刷新writing页面的state
+    isRouterAliveTimeout:null,
+  },
+  mutations: {
+    increment (state) {   // 用于刷新writing页面的方法
+      state.isRouterAlive = false
+      state.isRouterAliveTimeout = null
+      state.isRouterAliveTimeout=setInterval(() => {
+        state.isRouterAlive = true
+      }, 1);
+    }
+  },
   modules: {
     writingStore,
 

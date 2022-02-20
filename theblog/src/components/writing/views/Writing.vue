@@ -65,8 +65,24 @@
         </div>
 
         <div class="writing_btns">
-          <el-button type="success" @click="PublishButton">文章发布</el-button>
-          <el-button type="primary" @click="PublishSave">保存草稿</el-button>
+          <el-button
+            type="success"
+            @click="PublishButton"
+            icon="el-icon-document-checked"
+            circle
+          ></el-button>
+          <el-button
+            type="info"
+            @click="PublishSave"
+            icon="el-icon-tickets"
+            circle
+          ></el-button>
+          <el-button
+            type="danger"
+            @click="clearPageInput"
+            icon="el-icon-delete"
+            circle
+          ></el-button>
         </div>
       </div>
     </div>
@@ -177,9 +193,11 @@ export default {
     // 文件上传触发的函数 :http-request="uploadSectionFile"
     uploadSectionFile (param) {
       this.action_uploadSectionFile(param)
+      // 清空临时的保存
+      this.saveFromData = new FormData()
     },
 
-    // 两个按钮有关------------------------------------------------------------
+    // 按钮有关------------------------------------------------------------
     // 发布文章
     PublishButton () {
       var theTitle = this.title,
@@ -198,7 +216,6 @@ export default {
         this.$message.error('需要将标题、分类、简介都填充完整');
       }
     },
-
     // 保存文章
     PublishSave () {
       var saveData = this.saveFromData,
@@ -222,6 +239,27 @@ export default {
         this.action_PublishSave(saveData)
       }
 
+    },
+    // 清空文章
+    clearPageInput () {
+      // 删除md文章服务器端保存的图片
+      var themdPic = [];
+      this.mdPic.forEach((item, index) => {
+        themdPic.push(index)
+      })
+      for (var i = 0; i < themdPic.length; i++) {
+        var axios_get = themdPic[i].replace(/getPic/, 'removePic')
+        axios
+          .get(axios_get)
+          .then((res) => {
+            console.log(res.data)
+          })
+          .catch((err) => {
+            console.log(err, '--错误')
+          })
+      }
+      // 组件重载 刷新清空输入框等数据
+      this.$store.commit('increment')
     },
   },
 }

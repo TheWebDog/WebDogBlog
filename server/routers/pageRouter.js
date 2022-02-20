@@ -89,6 +89,7 @@ router.post('/submitPage', function (req, res) {
         var md = md[0]
         var html = html[0]
         var pic_path = files.pic[0].path
+        mdPic[0].length==0?mdPic=[]:mdPic
         mdPic.push(pic_path)
         var coverRequirePath = `http://localhost:4000/page/getPic?picUrl=${pic_path}`
         var now = new Date()
@@ -115,10 +116,10 @@ router.post('/submitPage', function (req, res) {
           //执行
           if (err) {
             console.log(err, '-----------err')
-            res.send('成功')
+            res.send('失败')
           } else {
             console.log(result, '-----------res')
-            res.send('失败')
+            res.send('成功')
           }
         })
       }
@@ -157,10 +158,10 @@ router.post('/savePage', function (req, res) {
           //执行
           if (err) {
             console.log(err, '-----------err')
-            res.send('成功')
+            res.send('失败')
           } else {
             console.log(result, '-----------res')
-            res.send('失败')
+            res.send('成功')
           }
         })
       }
