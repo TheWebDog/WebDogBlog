@@ -22,30 +22,14 @@
   .el-drawer {
     width: 220px !important;
   }
-  .el_card_generalization,
-  .el_card_author,
-  .el_card_time{
-    display: none !important;
-  }
-  .el_card_title{
-    max-width: 100px;
-  }
 }
 @media (max-width: 1100px) {
-  /* .el-aside {
-    display: none;
-  } */
   .list_li{
     height: 150px;
   }
   .el_card_el_image{
     width: 150px;
-    height: 98px;
-  }
-  .el_card_title{
-    height: 16px;
-    font-size: 16px;
-    line-height: 16px;
+    height: 118px;
   }
 }
 @media (min-width: 801px) and (max-width: 1100px){
@@ -54,14 +38,6 @@
     max-width: 700px;
     margin: 5px auto;
   }
-  .el_card_generalization,
-  .el_card_author{
-    display: none !important;
-  }
-  .el_card_title{
-    max-width: 350px;
-  }
-
   .writing_header{
     max-width: 800px;
     display: flex;
