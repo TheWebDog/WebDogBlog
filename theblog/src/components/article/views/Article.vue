@@ -16,7 +16,7 @@
         </h4>
         <h2 class="article_synopsis">
           <div class="article_synopsis_first">文章简介：</div>
-          <div>{{ get_ArticlePage.synopsis }}</div>
+          <p class="article_synopsis_second">{{ get_ArticlePage.synopsis }}</p>
         </h2>
       </div>
       <link

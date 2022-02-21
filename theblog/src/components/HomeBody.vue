@@ -20,10 +20,10 @@ export default {
     List,
   },
   methods: {
-    ...mapActions(['action_getArticleList']),
+    ...mapActions([]),
   },
   created () {
-    this.action_getArticleList()
+    
   },
 }
 </script>

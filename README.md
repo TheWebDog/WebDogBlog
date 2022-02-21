@@ -42,3 +42,6 @@
 cdn引入样式
 `<link href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" rel="stylesheet">`
 就可以正常显示了。
+11. 
+- 问题：进入文章分类后的第一次点击某分类时 列表组件不列出该分类
+- 解决：想到设置:key和this.$router.currentRoute.fullPath挂钩 当路由变化时触发列表组件刷新 结果还是不好使 后来改来改去 改成this.$route.params.id好使了 期间还用了其他的方式 例如用到问题9的逻辑 也可以实现 但是由于v-if是销毁组件 导致该组件会闪一下

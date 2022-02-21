@@ -126,7 +126,12 @@ export default {
     querySearchAsync (queryString, cb) {
       // [{ "value": "123"},{ "value": "456"}]
       var classifyList = this.get_querySearchAsync
-      var results = queryString ? classifyList.filter(this.createStateFilter(queryString)) : classifyList;
+      var arr=[]
+      for (var i = 0; i < classifyList.length; i++) {
+        var createObj = { value: classifyList[i] }
+        arr.push(createObj)
+      }
+      var results = queryString ? arr.filter(this.createStateFilter(queryString)) : arr;
       cb(results);
     },
     // 用于匹配下拉内容

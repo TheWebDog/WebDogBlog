@@ -1,20 +1,23 @@
 <template>
   <div class="articleClassify_div">
     <div class="articleClassify_Classify">
-      <ul class="classify_ul">
-        <li
+      <el-tabs
+        v-model="activeName"
+        @tab-click="handleClick"
+        class="classify_ul"
+      >
+        <el-tab-pane
           class="classify_li"
-          :class="{ choicedli: $route.params.classify == item }"
+          :label="item"
+          :name="index.toString()"
           v-for="(item, index) in get_querySearchAsync"
-          v-bind:key="index"
-          @click="goToTheClassify(item)"
+          :key="index"
         >
-          {{ item }}
-        </li>
-      </ul>
+        </el-tab-pane>
+      </el-tabs>
     </div>
     <div class="articleClassify_List">
-      <List></List>
+      <List :key="this.$route.params.id"></List>
     </div>
   </div>
 </template>
@@ -27,25 +30,36 @@ export default {
   components: {
     List,
   },
-  created () {
-    (async () => {
-      await this.action_querySearchAsync()
-      var theFirstClassify = await this.get_querySearchAsync()
-      await this.goToTheClassify(theFirstClassify[0])
-    })()
-  },
   data () {
     return {
+      activeName: '-1',
     }
   },
   computed: {
     ...mapGetters(['get_querySearchAsync']),
   },
   methods: {
-    ...mapActions(['action_getArticleClassifyList', 'action_querySearchAsync']),
+    ...mapActions(['action_querySearchAsync']),
+    handleClick (tab) {
+      if (this.$route.params.id != tab._props.label) {
+        this.$router.replace(`/articleClassify/${tab._props.label}`)
+      }
+    },
   },
   created () {
-    // this.action_getArticleClassifyList()
+    this.action_querySearchAsync()
+  },
+  updated () {
+    // console.log(this.$router.currentRoute.fullPath)
+  },
+  watch: {
+    $route (to) {
+      // console.log(to.fullPath,to.params);//到哪去
+      // this.$store.commit('increment')
+      if(to.fullPath=='/articleClassify'){
+        this.activeName='-1'
+      }
+    }
   },
 }
 </script>

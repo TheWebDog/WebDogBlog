@@ -1,0 +1,13 @@
+.articleClassify_Classify {
+  padding: 5px 10px;
+  /* 禁用文字选中 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.classify_ul > div > div > div > div > .el-tabs__item {
+  font-size: 20px;
+  font-weight: 900 !important;
+}

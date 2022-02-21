@@ -48,3 +48,18 @@
 .el-button-nav{
   padding: 10px !important;
 }
+
+.left_nav_ul_el_input{
+  width: 100%;
+  list-style: none;
+}
+.left_nav_li_el_input{
+  margin: 5px 15px;
+}
+.left_nav_li_el_link{
+  margin: 0px 15px;
+}
+.left_nav_li_el_link>a>span{
+  height: 50px;
+}
+

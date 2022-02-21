@@ -9,6 +9,7 @@ const path = require('path')
 
 const multiparty = require('multiparty') // 处理fromdata图片的中间件
 var url = require('url')
+const { set } = require('mongoose')
 
 // 录入信息函数
 var informationEntry = async function (classify, title) {
@@ -91,7 +92,7 @@ router.post('/submitPage', function (req, res) {
         var md = md[0]
         var html = html[0]
         var pic_path = files.pic[0].path
-        mdPic[0].length==0?mdPic=[]:mdPic
+        mdPic[0].length == 0 ? (mdPic = []) : mdPic
         mdPic.push(pic_path)
         var coverRequirePath = `http://localhost:4000/page/getPic?picUrl=${pic_path}`
         var now = new Date()
@@ -140,14 +141,16 @@ router.post('/savePage', function (req, res) {
       } else {
         var { title, category, synopsis, md, mdPic } = fields
         var title = title[0] ? title[0] : null
-        var category = category[0]  ? category[0] : null
-        var synopsis = synopsis[0]  ? synopsis[0] : null
+        var category = category[0] ? category[0] : null
+        var synopsis = synopsis[0] ? synopsis[0] : null
         var md = md[0] ? md[0] : null
-        
+
         var pic_path = files.pic ? files.pic[0].path : null
-        mdPic==['']?mdPic=[]:mdPic
-        pic_path?mdPic.push(pic_path):mdPic=null
-        var coverRequirePath = pic_path?`http://localhost:4000/page/getPic?picUrl=${pic_path}`:null
+        mdPic == [''] ? (mdPic = []) : mdPic
+        pic_path ? mdPic.push(pic_path) : (mdPic = null)
+        var coverRequirePath = pic_path
+          ? `http://localhost:4000/page/getPic?picUrl=${pic_path}`
+          : null
 
         const savePage = new SavePageModel({
           title,
@@ -175,31 +178,36 @@ router.post('/savePage', function (req, res) {
 // 获取分类列表
 router.get('/getClassify', function (req, res) {
   ;(async () => {
-    PageModel
-      .find({})
+    PageModel.find({})
       .then((resault) => {
-        var classifyList = [];
+        var arr = []
+        var classifyList = []
+        var set = new Set()
         for (var i = 0; i < resault.length; i++) {
-          var obj={"value":resault[i].category}
-            if (classifyList .indexOf(obj) === -1) {
-              classifyList .push(obj)
-            }
+          var categoryValue = resault[i].category
+          set.add(categoryValue)
         }
+        classifyList = [...set]
+        // console.log(classifyList)
         res.send(classifyList)
       })
       .catch((err) => {
-        console.log(err,'---err')
+        console.log(err, '---err')
         res.send('查询失败')
       })
   })()
 })
 
-
 // 获取文章列表
-router.get('/getList', function (req, res) {
+router.post('/getList', function (req, res) {
+  var { value } = req.body
   ;(async () => {
     // 获取文章列表
-    var resault = await PageModel.find({})
+    if (value) {
+      var resault = await PageModel.find({ category: value })
+    } else {
+      var resault = await PageModel.find({})
+    }
     res.send(resault)
   })()
 })
@@ -209,7 +217,7 @@ router.post('/getArticlePage', function (req, res) {
   var { id } = req.body
   ;(async () => {
     var findresault = await PageModel.find({ _id: id })
-    
+
     if (findresault.length == 0) {
       res.send('文章丢失')
     } else {
@@ -217,42 +225,6 @@ router.post('/getArticlePage', function (req, res) {
     }
   })()
 })
-
-
-
-
-
-
-
-// // 通过分类获取文章
-// router.post('/getList', function (req, res) {
-//   var { classify } = req.body
-//   var resaultTitle = []
-//   ;(async () => {
-//     // 获取文章列表
-//     var resault = await PageModel.find({ classify: classify })
-//     // mongo的列表取出title到resaultTitle
-//     for (var i = 0; i < resault.length; i++) {
-//       resaultTitle.push(resault[i].title)
-//     }
-//     // 从分类中获取文章列表
-//     var thefile = await fsPromises.readdir(`./articles/${classify}`)
-//     // 去除thefile里的".md""
-//     for (var i = 0; i < thefile.length; i++) {
-//       thefile[i] = thefile[i].slice(0, thefile[i].length - 3)
-//     }
-//     // 比对文章列表并获取结果
-//     deledTitle = diff(thefile, resaultTitle)
-//     // 若deledTitle中有结果 表明mongoose有缺失篇目 需补录
-//     if (deledTitle.length != 0) {
-//       for (var i = 0; i < deledTitle.length; i++) {
-//         await informationEntry(classify, deledTitle[i])
-//       }
-//     }
-//     var finallyResault = await PageModel.find({ classify: classify })
-//     res.send(finallyResault)
-//   })()
-// })
 
 // // 通过热门获取文章
 // router.get('/getHot', function (req, res) {
@@ -283,29 +255,6 @@ router.post('/getArticlePage', function (req, res) {
 //     var finallyResault = await PageModel.find({}).sort({ count: -1 }).limit(10)
 //     // 发送数据
 //     res.send(finallyResault)
-//   })()
-// })
-
-// // 获取文章
-// router.post('/getPage', function (req, res) {
-//   var { classify, title } = req.body
-//   var pagePath = `./articles/${classify}/${title}.md`
-//   ;(async () => {
-//     var pageContent = await fsPromises.readFile(pagePath, 'utf-8')
-//     res.send(pageContent)
-//     var findresault = await PageModel.find({ title: title, classify: classify })
-//     if (findresault.length == 0) {
-//       // 文章在mongoose中查找不到，补录该文章基本信息
-//       await informationEntry(classify, title)
-//     } else {
-//       var numb = ++findresault[0].count
-//       await PageModel.updateOne(
-//         { title: title, classify: classify },
-//         { count: numb }
-//       ).catch((err) => {
-//         console.log(err)
-//       })
-//     }
 //   })()
 // })
 

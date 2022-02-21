@@ -30,6 +30,24 @@
             <el-tab-pane label="关于博主">关于博主</el-tab-pane>
           </el-tabs>
         </div>
+        <ul class="left_nav_ul_el_input">
+          <li class="left_nav_li_el_input">
+            <el-input
+              class="left_nav_search"
+              prefix-icon="el-icon-search"
+              v-model="searchinput"
+              placeholder="请输入内容"
+              maxlength="10"
+              show-word-limit
+            ></el-input>
+          </li>
+          <li class="left_nav_li_el_link" @click="sign_out" :hidden="!loginornot">
+            <el-link>登出</el-link>
+          </li>
+          <li class="left_nav_li_el_link" @click="to_login" :hidden="loginornot">
+            <el-link>登入</el-link>
+          </li>
+        </ul>
       </el-drawer>
     </div>
     <!-- 小屏时销毁此部分 -->
@@ -50,7 +68,7 @@
                   技术交流
                 </el-link>
               </li>
-              <li class="header_li">
+              <li class="header_li" @click="to_articleClassifylist">
                 <el-link icon="el-icon-menu">文章分类</el-link>
               </li>
               <li class="header_li">
@@ -103,7 +121,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['action_getArticleList']),
+    ...mapActions(['action_getSearchList']),
     to_login () {
       this.$router.push('/login')
     },
@@ -117,6 +135,9 @@ export default {
     to_list () {
       this.$router.push('/list')
     },
+    to_articleClassifylist () {
+      this.$router.push('/articleClassify')
+    },
     handleClick (tab) {
       // console.log(tab._props.label, event);
       switch (tab._props.label) {
@@ -127,7 +148,7 @@ export default {
           this.to_list()
           break;
         case '文章分类':
-
+          this.to_articleClassifylist()
           break;
         case '源码分享':
 
@@ -142,7 +163,6 @@ export default {
     }
   },
   created () {
-    this.action_getArticleList()
   },
 }
 </script>

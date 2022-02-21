@@ -41,6 +41,7 @@
 
     <!-- 分页 -->
     <el-pagination
+      :small='media_lessThan_width500px'
       background
       layout="prev, pager, next"
       :page-size="10"
@@ -57,10 +58,14 @@ export default {
   name: "List",
   data () {
     return {
+      windoWidth: document.documentElement.clientWidth,
     }
   },
   computed: {
     ...mapGetters(['get_articleList']),
+    media_lessThan_width500px () {
+      return this.windoWidth < 500
+    },
   },
   methods: {
     ...mapActions(['action_getArticleList']),
@@ -69,7 +74,7 @@ export default {
     },
   },
   created () {
-    // this.action_getArticleList()
+    this.action_getArticleList(this.$router.currentRoute.fullPath)
   },
 }
 </script>

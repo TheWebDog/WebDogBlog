@@ -95,11 +95,34 @@ export default new VueRouter({
       },
       children: [
         {
+          path: '',
+          name: '',
+          component: () => {
+            return import('./components/HomeBody.vue')
+          },
+        },
+        {
           path: 'list',
           name: 'list',
           component: () => {
             return import('./components/list/views/List.vue')
           },
+        },
+        {
+          path: 'articleClassify',
+          name: 'articleClassify',
+          component: () => {
+            return import('./components/articleClassify/views/ArticleClassify.vue')
+          },
+          children: [
+            {
+              path: ':id',
+              name: ':id',
+              component: () => {
+                return import('./components/articleClassify/views/ArticleClassify.vue')
+              },
+            },
+          ]
         },
         {
           path: 'article/:id',
@@ -109,13 +132,7 @@ export default new VueRouter({
           },
           props: true,
         },
-        {
-          path: '',
-          name: '',
-          component: () => {
-            return import('./components/HomeBody.vue')
-          },
-        },
+
       ],
     },
     {
