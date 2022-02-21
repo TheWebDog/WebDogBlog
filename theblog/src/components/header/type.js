@@ -1,1 +1,1 @@
-// export const GET_NAV = 'GET_NAV'
+// export const SET_INPUT_VALUE = 'SET_INPUT_VALUE'

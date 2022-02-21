@@ -41,7 +41,7 @@
 
     <!-- 分页 -->
     <el-pagination
-      :small='media_lessThan_width500px'
+      :small="media_lessThan_width500px"
       background
       layout="prev, pager, next"
       :page-size="10"

@@ -34,7 +34,8 @@ export default new VueRouter({
     },
     {
       path: '/manager',
-      name: 'manager',
+      name: '',
+      // 因为当某个路由有子级路由的时候，这时候父级路由需要一个默认的路由，所以父级路由不能定义name属性，解决办法是：即去除父级的name属性
       component: () => {
         return import('./components/manager/views/Manager.vue')
       },
@@ -110,7 +111,7 @@ export default new VueRouter({
         },
         {
           path: 'articleClassify',
-          name: 'articleClassify',
+          name: '',
           component: () => {
             return import('./components/articleClassify/views/ArticleClassify.vue')
           },
@@ -123,6 +124,14 @@ export default new VueRouter({
               },
             },
           ]
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: () => {
+            return import('./components/search/views/Search.vue')
+          },
+          props: true,
         },
         {
           path: 'article/:id',

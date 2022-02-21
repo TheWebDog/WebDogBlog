@@ -9,6 +9,9 @@
   .list_li {
     height: 200px;
   }
+  .list_div{
+    min-width: 692px;
+  }
   .el_card_el_image {
     width: 200px;
     height: 168px;

@@ -199,6 +199,23 @@ router.get('/getClassify', function (req, res) {
 })
 
 // 获取文章列表
+router.post('/search', function (req, res) {
+  var { value } = req.body
+  var wd = value.split("'").join('').split(' ').join('').toLowerCase()
+  var reg = new RegExp(`${wd}`) // 转换成正则表达
+
+  ;(async () => {
+    // 获取文章列表
+    if (value) {
+      var resault = await PageModel.find({ pinyinAndTitle: reg })
+    } else {
+      var resault = await PageModel.find({})
+    }
+    res.send(resault)
+  })()
+})
+
+// 搜索文章列表
 router.post('/getList', function (req, res) {
   var { value } = req.body
   ;(async () => {

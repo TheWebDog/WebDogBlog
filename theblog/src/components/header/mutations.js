@@ -1,14 +1,7 @@
 // import axios from 'axios'
-// import { GET_NAV } from './type'
+// import { SET_INPUT_VALUE } from './type'
 export default {
-  // [GET_NAV]: function (state) {
-  //   axios
-  //     .get('http://localhost:3090/getClassify')
-  //     .then((res) => {
-  //       state.classifyList = res.data
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
+  // [SET_INPUT_VALUE]: function (state,value) {
+  //   state.inputValue=value
   // },
 }

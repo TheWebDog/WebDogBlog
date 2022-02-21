@@ -38,6 +38,9 @@
     max-width: 700px;
     margin: 5px auto;
   }
+  .list_div{
+    min-width: 642px;
+  }
   .writing_header{
     max-width: 800px;
     display: flex;

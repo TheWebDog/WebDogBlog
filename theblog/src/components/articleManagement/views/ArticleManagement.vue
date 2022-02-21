@@ -1,25 +1,50 @@
 <template>
   <div class="list_div">
-    <el-row :gutter="12">
-      <el-col :span="24">
-        <ul class="list_ul">
-          <li class="list_li" v-for="(item, index) in 5" :key="index" @click="to_article(item)">
-            <el-card class="list_li_div" shadow="hover">
-              <el-image
-                class="el_card_el_image"
-                src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic3.zhimg.com%2Fv2-27e40447e4827ca0ac9424b8f37f6493_180x120.jpg&refer=http%3A%2F%2Fpic3.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647517541&t=85d311a6f2287001d45826b217edd758"
-                fit="cover"
-              ></el-image>
-              <div class="el_card_title">标题24个字</div>
-              <div class="el_card_generalization">简介45个字</div>
-              <div class="el_card_author">作者</div>
-              <el-tag class="el_card_time" type="info">时间</el-tag>
-              <el-tag class="el_card_tag">JavaScript</el-tag>
-            </el-card>
-          </li>
-        </ul>
-      </el-col>
-    </el-row>
+    <el-table
+      max-height="500"
+      :data="tableData"
+      stripe
+      style="width: 90%; max-width: 1100px; min-width: 700px"
+    >
+      <el-table-column
+        sortable
+        fixed="left"
+        prop="date"
+        label="日期"
+        width="150"
+      >
+        <template slot-scope="scope">
+          <i class="el-icon-time"></i>
+          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column fixed="left" prop="name" label="标题" width="150">
+        <!-- <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>姓名: {{ scope.row.name }}</p>
+            <p>住址: {{ scope.row.address }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            </div>
+          </el-popover>
+        </template> -->
+      </el-table-column>
+      <el-table-column prop="name" label="分类" width="150"> </el-table-column>
+      <el-table-column prop="name" label="简介" width="500"> </el-table-column>
+      <el-table-column fixed="right" label="操作" width="180">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
 
     <!-- 分页 -->
     <el-pagination
@@ -39,7 +64,55 @@ export default {
   name: "articleManagement",
   data () {
     return {
-
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+      ]
     }
   },
   computed: {
@@ -47,9 +120,12 @@ export default {
   },
   methods: {
     // ...mapActions(['getNav','geClassifyList']),
-    to_article (item) {
-      this.$router.push(`/article/${item}`)
+    handleEdit (index, row) {
+      console.log(index, row);
     },
+    handleDelete (index, row) {
+      console.log(index, row);
+    }
   },
   created () {
 

@@ -33,6 +33,7 @@
         <ul class="left_nav_ul_el_input">
           <li class="left_nav_li_el_input">
             <el-input
+              @input="changeValue()"
               class="left_nav_search"
               prefix-icon="el-icon-search"
               v-model="searchinput"
@@ -41,11 +42,19 @@
               show-word-limit
             ></el-input>
           </li>
-          <li class="left_nav_li_el_link" @click="sign_out" :hidden="!loginornot">
-            <el-link>登出</el-link>
+          <li
+            class="left_nav_li_el_link"
+            @click="sign_out"
+            :hidden="!loginornot"
+          >
+            <el-link icon="el-icon-user">退出</el-link>
           </li>
-          <li class="left_nav_li_el_link" @click="to_login" :hidden="loginornot">
-            <el-link>登入</el-link>
+          <li
+            class="left_nav_li_el_link"
+            @click="to_login"
+            :hidden="loginornot"
+          >
+            <el-link icon="el-icon-warning-outline">未登录</el-link>
           </li>
         </ul>
       </el-drawer>
@@ -79,6 +88,7 @@
               </li>
               <li class="header_li">
                 <el-input
+                  @input="changeValue()"
                   class="search"
                   prefix-icon="el-icon-search"
                   v-model="searchinput"
@@ -88,10 +98,10 @@
                 ></el-input>
               </li>
               <li class="header_li" @click="sign_out" :hidden="!loginornot">
-                <el-link>登出</el-link>
+                <el-link icon="el-icon-user">退出</el-link>
               </li>
               <li class="header_li" @click="to_login" :hidden="loginornot">
-                <el-link>登入</el-link>
+                <el-link icon="el-icon-warning-outline">未登录</el-link>
               </li>
             </ul>
           </div>
@@ -121,7 +131,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['action_getSearchList']),
+    ...mapActions(['action_getSearchList', 'action_setInputValue']),
+    changeValue: function () {
+      var value = this.searchinput
+      if (value.length != 0) {
+        if (this.$route.fullPath != '/search') {
+          this.$router.replace('/search')
+        }
+        this.action_setInputValue(value)
+      } else {
+        this.$router.replace('/list')
+      }
+    },
     to_login () {
       this.$router.push('/login')
     },
@@ -163,6 +184,7 @@ export default {
     }
   },
   created () {
+
   },
 }
 </script>

@@ -54,12 +54,9 @@
   list-style: none;
 }
 .left_nav_li_el_input{
-  margin: 5px 15px;
+  margin: 10px 15px 0px;
 }
 .left_nav_li_el_link{
-  margin: 0px 15px;
-}
-.left_nav_li_el_link>a>span{
-  height: 50px;
+  margin: -10px 20px;
 }
 

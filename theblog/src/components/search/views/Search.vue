@@ -1,7 +1,7 @@
 <template>
   <div class="search_div">
     <div class="search_Classify">
-      搜索
+      <el-page-header @back="goBack" content="搜索结果"> </el-page-header>
     </div>
     <div class="search_List">
       <List :key="this.$route.params.id"></List>
@@ -26,10 +26,16 @@ export default {
     ...mapGetters(['get_querySearchAsync']),
   },
   methods: {
-    ...mapActions(['action_getSearchList']),
+    ...mapActions([]),
+    goBack () {
+      this.$router.replace('/list')
+    }
   },
   created () {
-    this.action_getSearchList()
+    if (!this.$store._modules.root.state.listStore.searchInputValue) {
+      this.$router.replace('/list')
+    }
+    // this.action_getSearchList()
   },
   updated () {
     // console.log(this.$router.currentRoute.fullPath)
@@ -38,8 +44,8 @@ export default {
     $route (to) {
       // console.log(to.fullPath,to.params);//到哪去
       // this.$store.commit('increment')
-      if(to.fullPath=='/search'){
-        this.activeName='-1'
+      if (to.fullPath == '/search') {
+        this.activeName = '-1'
       }
     }
   },

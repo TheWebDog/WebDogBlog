@@ -3,10 +3,10 @@ import state from './state';
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
-import List from './views/List.vue'
+import ArticleManagement from './views/ArticleManagement.vue'
 
 // 整合navStore
-const listStore = {
+const ArticleManagementStore = {
   state,
   getters,
   actions,
@@ -14,4 +14,4 @@ const listStore = {
 }
 
 // 导出
-export { listStore, List };
+export { ArticleManagementStore, ArticleManagement };
