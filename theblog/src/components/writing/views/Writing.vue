@@ -117,16 +117,16 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['get_toolbars', 'get_querySearchAsync']),
+    ...mapGetters(['get_toolbars', 'get_querySearchAsync', 'get_uploadFromData']),
   },
   methods: {
-    ...mapActions(['action_querySearchAsync', 'action_uploadSectionFile', 'action_PublishButton', 'action_PublishSave']),
+    ...mapActions(['action_querySearchAsync', 'action_uploadSectionFile', 'action_PublishButton', 'action_PublishSave', 'action_PublishPic']),
     // 页面初始化、获取分类有关------------------------------------------------------------
     // 文章分类部分
     querySearchAsync (queryString, cb) {
       // [{ "value": "123"},{ "value": "456"}]
       var classifyList = this.get_querySearchAsync
-      var arr=[]
+      var arr = []
       for (var i = 0; i < classifyList.length; i++) {
         var createObj = { value: classifyList[i] }
         arr.push(createObj)
@@ -194,10 +194,11 @@ export default {
     // 封面图片保存于临时草稿
     onChange (file) {
       this.saveFromData.append('pic', file.raw)
+      this.action_PublishPic({ file })
     },
     // 文件上传触发的函数 :http-request="uploadSectionFile"
-    uploadSectionFile (param) {
-      this.action_uploadSectionFile(param)
+    uploadSectionFile () {
+      this.action_uploadSectionFile()
       // 清空临时的保存
       this.saveFromData = new FormData()
     },
@@ -214,11 +215,11 @@ export default {
       this.mdPic.forEach((item) => {
         themdPic.push(item)
       })
-      if (themd.length != 0 && theTitle.length != 0 && theCategory.length != 0 && theSynopsis.length != 0) {
+      if (this.get_uploadFromData.get('pic') && themd.length != 0 && theTitle.length != 0 && theCategory.length != 0 && theSynopsis.length != 0) {
         this.action_PublishButton({ theTitle, theCategory, theSynopsis, themd, thehtml, themdPic });
         this.$refs.upload.submit();// submit用于触发 uploadSectionFile
       } else {
-        this.$message.error('需要将标题、分类、简介都填充完整');
+        this.$message.error('需要将标题、分类、简介和封面图片都填充完整');
       }
     },
     // 保存文章

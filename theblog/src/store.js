@@ -13,6 +13,7 @@ import { managerStore } from './components/manager'
 import { writingStore } from './components/writing'
 import { listStore } from './components/list'
 import { articleClassifyStore } from './components/articleClassify'
+import { ArticleManagementStore } from './components/articleManagement'
 
 Vue.use(Vuex)
 
@@ -34,6 +35,7 @@ const store = new Vuex.Store({
     writingStore,
     listStore,
     articleClassifyStore,
+    ArticleManagementStore,
 
 
 

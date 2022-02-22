@@ -1,4 +1,4 @@
-import { GET_SERVER_CLASSIFY, UPLOAD_File, SET_File, SAVE_File } from './type'
+import { GET_SERVER_CLASSIFY, UPLOAD_File, SET_File, SAVE_File,SET_PIC } from './type'
 import axios from 'axios'
 
 export default {
@@ -24,10 +24,15 @@ export default {
     theData.append('html', thehtml) // 转化后的html
     theData.append('mdPic', themdPic) // 有关图片路径
   },
-  // 上传文章
-  [UPLOAD_File]: function (state, param) {
+  // 填入图片-发布
+  [SET_PIC]: function (state, data) {
+    var { file } = data
     var theData = state.uploadFromData
-    theData.append('pic', param.file)
+    theData.append('pic', file.raw) // 封面
+  },
+  // 上传文章
+  [UPLOAD_File]: function (state) {
+    var theData = state.uploadFromData
     axios
       .post('http://localhost:4000/page/submitPage', theData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -37,16 +42,19 @@ export default {
         switch (res.data) {
           case '成功':
             alert('上传成功')
-            // 清空上传的保存
-            state.uploadFromData = new FormData()
             break
           case '失败':
             alert('上传失败')
+            break
+          case '文章标题重复，请修改':
+            alert('文章标题重复，请修改')
             break
           default:
             alert('未知错误,可能是submitPage时err了')
             break
         }
+        // 清空上传的保存
+        state.uploadFromData = new FormData()
       })
       .catch((err) => {
         console.log(err, '--发生axios错误')

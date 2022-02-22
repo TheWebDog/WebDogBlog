@@ -8,38 +8,6 @@ const pinyinPro = require('pinyin-pro').pinyin
 const path = require('path')
 
 const multiparty = require('multiparty') // 处理fromdata图片的中间件
-var url = require('url')
-const { set } = require('mongoose')
-
-// 录入信息函数
-var informationEntry = async function (classify, title) {
-  var time = await fsPromises.stat(`./articles/${classify}/${title}.md`)
-  var date = time.birthtime.toLocaleString()
-  var pinyinAndTitle =
-    pinyinPro(title, { toneType: 'none' }).split(' ').join('').toLowerCase() +
-    title
-  const thepage = new PageModel({
-    title,
-    classify,
-    date,
-    count: 1,
-    pinyinAndTitle,
-  })
-  thepage.save(() => {
-    console.log('文件已写入')
-  })
-}
-// 对比两个数组 并返回第一个数组多出来的值 并且去重
-function diff(arr1, arr2) {
-  var newArr = new Set()
-  for (var i = 0; i < arr1.length; i++) {
-    if (arr2.indexOf(arr1[i]) === -1) {
-      newArr.add(arr1[i])
-    }
-  }
-  newArr = Array.from(newArr)
-  return newArr
-}
 
 // 接口--------------------------------------------------------------------------------
 
@@ -78,53 +46,67 @@ router.post('/submitMavonPic', function (req, res) {
 // 接收文章
 router.post('/submitPage', function (req, res) {
   ;(async () => {
+    // new一个Form类 并写入存放路径uploadDir
     var form_pic = new multiparty.Form({ uploadDir: './public/images' })
+    // 对数据进行处理
     form_pic.parse(req, async (err, fields, files) => {
       if (err) {
+        // 数据处理错误
         console.log('submitPage时err了')
         res.send('submitPage时err了')
       } else {
+        // 数据取出
         var { title, category, synopsis, md, html, mdPic } = fields
         // 我去太奶奶的 竟然都是数组 就那么一项 给我整数组嘎哈 靠靠靠靠靠 mlgbz的
         var title = title[0]
-        var category = category[0]
-        var synopsis = synopsis[0]
-        var md = md[0]
-        var html = html[0]
-        var pic_path = files.pic[0].path
-        mdPic[0].length == 0 ? (mdPic = []) : mdPic
-        mdPic.push(pic_path)
-        var coverRequirePath = `http://localhost:4000/page/getPic?picUrl=${pic_path}`
-        var now = new Date()
-        var day = now.getDate()
-        var month = now.getMonth() + 1
-        var year = now.getFullYear()
-        var pinyinAndTitle =
-          pinyinPro(title, { toneType: 'none' })
-            .split(' ')
-            .join('')
-            .toLowerCase() + title
-        const thepage = new PageModel({
-          title,
-          pinyinAndTitle,
-          coverRequirePath,
-          category,
-          synopsis,
-          date: `${year}-${month}-${day}`, // 日期
-          md,
-          html,
-          mdPic,
-        })
-        thepage.save(function (err, result) {
-          //执行
-          if (err) {
-            console.log(err, '-----------err')
-            res.send('失败')
-          } else {
-            console.log(result, '-----------res')
-            res.send('成功')
-          }
-        })
+        // 判断重名文章
+        var resault = await PageModel.find({ title: title })
+        if (resault.length == 0) {
+          // 不重名 规划数据并存入mongoose
+          var category = category[0]
+          var synopsis = synopsis[0]
+          var md = md[0]
+          var html = html[0]
+          var pic_path = files.pic[0].path
+          mdPic[0].length == 0 ? (mdPic = []) : mdPic
+          mdPic.push(pic_path)
+          var coverRequirePath = `http://localhost:4000/page/getPic?picUrl=${pic_path}`
+          var now = new Date()
+          var day = now.getDate()
+          var month = now.getMonth() + 1
+          var year = now.getFullYear()
+          var pinyinAndTitle =
+            pinyinPro(title, { toneType: 'none' })
+              .split(' ')
+              .join('')
+              .toLowerCase() + title
+          const thepage = new PageModel({
+            title,
+            pinyinAndTitle,
+            coverRequirePath,
+            category,
+            synopsis,
+            date: `${year}-${month}-${day}`, // 日期
+            md,
+            html,
+            mdPic,
+          })
+          thepage.save(function (err, result) {
+            // 文章存入mongoose
+            if (err) {
+              // console.log(err, '-----------err')
+              res.send('失败')
+            } else {
+              // console.log(result, '-----------res')
+              res.send('成功')
+            }
+          })
+        } else {
+          // 重名 删除本次存放的图片 并返回结果提示
+          var pic_path = files.pic[0].path
+          fsPromises.unlink(pic_path)
+          res.send('文章标题重复，请修改')
+        }
       }
     })
   })()
@@ -198,12 +180,11 @@ router.get('/getClassify', function (req, res) {
   })()
 })
 
-// 获取文章列表
+// 搜索文章列表
 router.post('/search', function (req, res) {
   var { value } = req.body
   var wd = value.split("'").join('').split(' ').join('').toLowerCase()
   var reg = new RegExp(`${wd}`) // 转换成正则表达
-
   ;(async () => {
     // 获取文章列表
     if (value) {
@@ -215,7 +196,7 @@ router.post('/search', function (req, res) {
   })()
 })
 
-// 搜索文章列表
+// 分类文章列表
 router.post('/getList', function (req, res) {
   var { value } = req.body
   ;(async () => {
@@ -243,53 +224,27 @@ router.post('/getArticlePage', function (req, res) {
   })()
 })
 
-// // 通过热门获取文章
-// router.get('/getHot', function (req, res) {
-//   ;(async () => {
-//     var resaultClassify = []
-//     var allRemovePromises = []
-//     var deledClassify
-//     // 从mongoose获取列表
-//     var resault = await PageModel.find({})
-//     // mongo的列表取出classify到resaultClassify
-//     for (var i = 0; i < resault.length; i++) {
-//       resaultClassify.push(resault[i].classify)
-//     }
-//     // 从文件夹获取分类列表
-//     var classifyList = await fsPromises.readdir(`./articles`)
-//     // 将文件夹中不存在classify保存到deledClassify
-//     deledClassify = diff(resaultClassify, classifyList)
-//     // deledClassify里啥有东西 代表存在数据异常 否则需要进行数据同步
-//     if (deledClassify.length != 0) {
-//       // 从mongoose中移除不存在的相关classify文章信息
-//       for (var i = 0; i < deledClassify.length; i++) {
-//         var removePromises = PageModel.remove({ classify: deledClassify[i] })
-//         allRemovePromises.push(removePromises)
-//       }
-//       await Promise.all(allRemovePromises)
-//     }
-//     // 获取mongoose中存在的点击量排行前十的文章
-//     var finallyResault = await PageModel.find({}).sort({ count: -1 }).limit(10)
-//     // 发送数据
-//     res.send(finallyResault)
-//   })()
-// })
-
-// // 搜索文章
-// router.post('/search', function (req, res) {
-//   var { searchWhat } = req.body
-//   if (!searchWhat) {
-//     res.send({})
-//   } else {
-//     // 去引号去空格
-//     var wd = searchWhat.split("'").join('').split(' ').join('').toLowerCase()
-//     var reg = new RegExp(`${wd}`)
-//     ;(async () => {
-//       // 查找
-//       var resault = await PageModel.find({ pinyinAndTitle: reg })
-//       res.send(resault)
-//     })()
-//   }
-// })
+// 删除文章
+router.post('/removeArticle', function (req, res) {
+  var { id } = req.body
+  ;(async () => {
+    var findresault = await PageModel.find({ _id: id })
+    if (findresault.length == 0) {
+      res.send('文章不存在')
+    } else {
+      var mdPicArr = findresault[0].mdPic
+      for (var i = 0; i < mdPicArr.length; i++) {
+        var readPicFile = await fsPromises.readdir('./public/images')
+        var picNameSplit=mdPicArr[i].split("\\")
+        var picName = picNameSplit[picNameSplit.length-1]
+        if (mdPicArr[i].length!=0 && readPicFile.includes(picName)) {
+          await fsPromises.unlink(mdPicArr[i])
+        }
+      }
+      await PageModel.deleteOne({ _id: id })
+      res.send('删除成功')
+    }
+  })().catch(e => console.error(e,'err'));
+})
 
 module.exports = router

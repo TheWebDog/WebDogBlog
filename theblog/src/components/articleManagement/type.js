@@ -1,1 +1,2 @@
-// export const GET_NAV = 'GET_NAV'
+export const GET_ARTICLEMANAGEDATA = 'GET_ARTICLEMANAGEDATA'
+export const REMOVE_DATA = 'REMOVE_DATA'
