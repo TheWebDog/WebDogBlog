@@ -70,7 +70,7 @@
                 <div class="comment_right_footer">
                   {{ item.date }}
                   <el-link
-                    icon="el-icon-edit"
+                    icon="el-icon-edit-outline"
                     @click="replyTheComment(item._id)"
                     >回复</el-link
                   >
@@ -80,9 +80,7 @@
             <ul class="comment_ul_commented">
               <li
                 class="comment_li_commented"
-                v-for="(
-                  childrenItem, childrenIndex
-                ) in item.childrenComment"
+                v-for="(childrenItem, childrenIndex) in item.childrenComment"
                 :key="childrenIndex"
               >
                 <div class="article_comment_li_commented">
@@ -101,7 +99,7 @@
                     </div>
                     <div class="comment_right_footer">
                       {{ childrenItem.date }}
-                      <!-- <el-link icon="el-icon-edit">回复</el-link> -->
+                      <el-link icon="el-icon-edit" @click="replyTheComment(item._id,childrenItem.userName)">回复</el-link>
                     </div>
                   </div>
                 </div>
@@ -131,7 +129,7 @@ export default {
     ...mapGetters(['get_ArticlePage', 'get_ArticleComment']),
   },
   methods: {
-    ...mapActions(['action_getArticlePage', 'action_submit_comment', 'action_getComment','action_submit_comment_comment']),
+    ...mapActions(['action_getArticlePage', 'action_submit_comment', 'action_getComment', 'action_submit_comment_comment']),
     to_login () {
       this.$router.push('/login')
     },
@@ -143,16 +141,21 @@ export default {
       this.action_submit_comment({ userComment, articleId, userName, userId, })
       this.$router.go(0)
     },
-    replyTheComment (commentId) {
+    replyTheComment (commentId, childrenUserName) {
       this.$prompt('回复', '留言', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       }).then(({ value }) => {
         if (value) {
-          var userComment = value
+          var userComment;
+          if (childrenUserName) {
+            userComment = '@'+childrenUserName+': '+value
+          } else {
+            userComment = value
+          }
           var userName = this.$cookies.get('name').name
           var userId = this.$cookies.get('userId')._id
-          this.action_submit_comment_comment({commentId, userComment, userName, userId, })
+          this.action_submit_comment_comment({ commentId, userComment, userName, userId, })
           this.$router.go(0)
           this.$message({
             type: 'success',

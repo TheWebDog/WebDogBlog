@@ -281,11 +281,7 @@ router.post('/getArticleComment', function (req, res) {
   var { articleId } = req.body
   ;(async () => {
     var findresault = await UserCommentModel.find({ articleId: articleId })
-    if (findresault.length == 0) {
-      res.send('文章丢失')
-    } else {
-      res.send(findresault)
-    }
+    res.send(findresault)
   })().catch((e) => console.error(e, 'err'))
 })
 
@@ -311,7 +307,7 @@ router.post('/submitCommentComment', function (req, res) {
       { _id: commentId },
       { childrenComment: childrenComment }
     )
-    res.send('成功了')
+    res.send('评论成功')
   })().catch((e) => console.error(e, 'err'))
 })
 
