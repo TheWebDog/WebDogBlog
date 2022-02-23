@@ -333,4 +333,27 @@ router.post('/removeComment', function (req, res) {
   })().catch((e) => console.error(e, 'err'))
 })
 
+// 删除子评论
+router.post('/removeChildren', function (req, res) {
+  var { userComment,id } = req.body
+  ;(async () => {
+    var findresault = await UserCommentModel.find({ _id: id })
+    if (findresault.length == 0) {
+      res.send('该评论不存在')
+    } else {
+      var arr=[]
+      var { childrenComment } = findresault[0]
+      childrenComment.forEach((item) => {
+        if (item.userComment!=userComment) {
+          arr.push(item)
+        }
+      });
+      await UserCommentModel.updateOne(
+        { _id: id },
+        { childrenComment: arr }
+      )
+      res.send('删除成功')
+    }
+  })().catch((e) => console.error(e, 'err'))
+})
 module.exports = router

@@ -2,7 +2,6 @@
   <div class="CommentManage_div">
     <el-table
       class="CommentManage_el_table"
-      
       :data="get_CommentManageData"
       stripe
       style="width: 600px; min-width: 630px"
@@ -21,6 +20,40 @@
               <br />
               <el-form-item label="评论详情：">
                 <p>{{ props.row.userComment }}</p>
+              </el-form-item>
+              <br />
+              <el-form-item label="子评论：">
+                <ul class="CommentManage_childrenComment_ul">
+                  <li
+                    class="CommentManage_childrenComment_li"
+                    v-for="(childrenItem,childrenIndex) in props.row.childrenComment"
+                    :key="childrenIndex"
+                  >
+                    <div class="CommentManage_childrenComment">
+                      <div class="CommentManage_childrenComment_container">
+                        <div>用户名:</div>
+                        <div class="">
+                          {{ childrenItem.userName }}
+                        </div>
+                      </div>
+                      <div class="CommentManage_childrenComment_container">
+                        <div>用户评论:</div>
+                        <div class="">
+                          {{ childrenItem.userComment }}
+                        </div>
+                      </div>
+                      <div class="CommentManage_childrenComment_container">
+                        <el-link
+                          icon="el-icon-delete"
+                          @click="
+                            handleCommentChildrenDelete(childrenItem.userComment,props.row._id)
+                          "
+                          >删除</el-link
+                        >
+                      </div>
+                    </div>
+                  </li>
+                </ul>
               </el-form-item>
             </el-form>
           </div>
@@ -76,10 +109,15 @@ export default {
     ...mapGetters(['get_CommentManageData']),
   },
   methods: {
-    ...mapActions(['action_getCommentManageData', 'action_remove_comment']),
+    ...mapActions(['action_getCommentManageData', 'action_remove_comment','action_remove_children']),
     handleCommentDelete (index, row) {
       // 删除数据
       this.action_remove_comment(row._id)
+      this.$router.go(0)
+    },
+    handleCommentChildrenDelete (userComment,id) {
+      // 删除数据
+      this.action_remove_children({userComment,id})
       this.$router.go(0)
     }
   },
@@ -103,12 +141,40 @@ export default {
   border-left: 1px solid #e3e3e3;
 }
 
-.CommentManage_el_table>.el-table__body-wrapper>table>tbody>tr>.el-table_1_column_3>div{
+.CommentManage_el_table
+  > .el-table__body-wrapper
+  > table
+  > tbody
+  > tr
+  > .el-table_1_column_3
+  > div {
   /* background-color: black !important; */
   /* 文本溢出 显示为省略号 */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.CommentManage_childrenComment_ul {
+  margin-top: 10px;
+  list-style: none;
+}
+.CommentManage_childrenComment_li {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+.CommentManage_childrenComment_container {
+  display: flex;
+}
+.CommentManage_childrenComment_container > div {
+  font-size: 16px;
+  height: 20px;
+  line-height: 20px;
+}
+.CommentManage_childrenComment_container > .el-link {
+  font-size: 16px;
+  height: 20px;
+  line-height: 20px;
 }
 </style>
