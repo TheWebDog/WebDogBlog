@@ -120,19 +120,18 @@ export default {
     submitLogin () {
       if (this.Username.length != 0 && this.Password.length != 0) {
         var name = this.Username, password = this.Password;
-        console.log('login axiosing')
         axios
           .post('http://localhost:4000/user/login', { name, password })
           .then((res) => {
-            if (res.data.power) {
-              var { power } = res.data
-              this.$cookies.set('key', { power }, '1d')
-              // console.log(this.$cookies.get('key').power)
-              this.$router.push('/manager')
+            var { power,name,_id } = res.data.user
+            this.$cookies.set('key', { power }, '1d')
+            this.$cookies.set('name', { name }, '1d')
+            this.$cookies.set('userId', { _id }, '1d')
+            if (power < 10) {
+              this.$router.back()
             } else {
-              this.$message.error(res.data);
+              this.$router.push('/manager')
             }
-
           })
           .catch((err) => {
             console.log(err)
@@ -152,13 +151,18 @@ export default {
         axios
           .post('http://localhost:4000/user/register', { name, password })
           .then((res) => {
-            this.$message.error(res.data);
+            if (res.data == '注册成功') {
+              this.$message.success(res.data);
+            } else {
+              this.$message.error(res.data);
+            }
+
           })
           .catch((err) => {
             console.log(err)
           })
       } else {
-                this.$message({
+        this.$message({
           message: '请输入用户名和密码',
           type: 'warning'
         });

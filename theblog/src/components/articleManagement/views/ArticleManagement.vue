@@ -92,6 +92,7 @@ export default {
     handleDelete (index, row) {
       // 删除数据
       this.action_REMOVE_DATA(row._id)
+      this.$router.go(0)
     }
   },
   created () {

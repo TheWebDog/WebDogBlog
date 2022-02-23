@@ -10,9 +10,7 @@ var informationEntry = async function (name, password) {
   var day = now.getDate()
   var month = now.getMonth() + 1
   var year = now.getFullYear()
-
   var date = `${year}-${month}-${day}`
-
   const theUser = new UserModel({
     name,
     password,
@@ -54,15 +52,14 @@ router.post('/register', function (req, res) {
 
 router.post('/login', function (req, res) {
   var { name, password } = req.body
-  console.log(name, password)
   ;(async () => {
     // 读取user数据库
     var resault = await UserModel.find({ name: name })
     if (resault.length!=0) {
       var user=resault[0]
       if (user.password = password) {
-        var power=user.power
-        res.send({power})
+        // var power=user.power
+        res.send({user})
       } else {
         res.send('密码错误')
       }

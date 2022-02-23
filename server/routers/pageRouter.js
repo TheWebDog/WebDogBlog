@@ -4,6 +4,7 @@ const fsPromises = require('fs').promises
 const async = require('async')
 const PageModel = require('../models/page')
 const SavePageModel = require('../models/savePage')
+const UserCommentModel = require('../models/comment')
 const pinyinPro = require('pinyin-pro').pinyin
 const path = require('path')
 
@@ -109,7 +110,7 @@ router.post('/submitPage', function (req, res) {
         }
       }
     })
-  })()
+  })().catch((e) => console.error(e, 'err'))
 })
 
 // 保存草稿
@@ -154,7 +155,7 @@ router.post('/savePage', function (req, res) {
         })
       }
     })
-  })()
+  })().catch((e) => console.error(e, 'err'))
 })
 
 // 获取分类列表
@@ -177,7 +178,7 @@ router.get('/getClassify', function (req, res) {
         console.log(err, '---err')
         res.send('查询失败')
       })
-  })()
+  })().catch((e) => console.error(e, 'err'))
 })
 
 // 搜索文章列表
@@ -193,7 +194,7 @@ router.post('/search', function (req, res) {
       var resault = await PageModel.find({})
     }
     res.send(resault)
-  })()
+  })().catch((e) => console.error(e, 'err'))
 })
 
 // 分类文章列表
@@ -221,7 +222,7 @@ router.post('/getArticlePage', function (req, res) {
     } else {
       res.send(findresault[0])
     }
-  })()
+  })().catch((e) => console.error(e, 'err'))
 })
 
 // 删除文章
@@ -235,16 +236,83 @@ router.post('/removeArticle', function (req, res) {
       var mdPicArr = findresault[0].mdPic
       for (var i = 0; i < mdPicArr.length; i++) {
         var readPicFile = await fsPromises.readdir('./public/images')
-        var picNameSplit=mdPicArr[i].split("\\")
-        var picName = picNameSplit[picNameSplit.length-1]
-        if (mdPicArr[i].length!=0 && readPicFile.includes(picName)) {
+        var picNameSplit = mdPicArr[i].split('\\')
+        var picName = picNameSplit[picNameSplit.length - 1]
+        if (mdPicArr[i].length != 0 && readPicFile.includes(picName)) {
           await fsPromises.unlink(mdPicArr[i])
         }
       }
       await PageModel.deleteOne({ _id: id })
       res.send('删除成功')
     }
-  })().catch(e => console.error(e,'err'));
+  })().catch((e) => console.error(e, 'err'))
+})
+
+// 接收留言
+router.post('/submitComment', function (req, res) {
+  var { userComment, articleId, userName, userId } = req.body
+  var now = new Date()
+  var day = now.getDate()
+  var month = now.getMonth() + 1
+  var year = now.getFullYear()
+  var date = `${year}-${month}-${day}`
+  const theComment = new UserCommentModel({
+    userComment,
+    articleId,
+    userName,
+    userId,
+    date,
+    childrenComment: [],
+  })
+  theComment.save(function (err, result) {
+    // 评论存入mongoose
+    if (err) {
+      // console.log(err, '-----------err')
+      res.send('失败')
+    } else {
+      // console.log(result, '-----------res')
+      res.send('成功')
+    }
+  })
+})
+
+// 获取留言
+router.post('/getArticleComment', function (req, res) {
+  var { articleId } = req.body
+  ;(async () => {
+    var findresault = await UserCommentModel.find({ articleId: articleId })
+    if (findresault.length == 0) {
+      res.send('文章丢失')
+    } else {
+      res.send(findresault)
+    }
+  })().catch((e) => console.error(e, 'err'))
+})
+
+// 接收留言的留言
+router.post('/submitCommentComment', function (req, res) {
+  var { commentId, userComment, userName, userId } = req.body
+  var now = new Date()
+  var day = now.getDate()
+  var month = now.getMonth() + 1
+  var year = now.getFullYear()
+  var date = `${year}-${month}-${day}`
+  var obj = {
+    userComment,
+    userName,
+    userId,
+    date,
+  }
+  ;(async () => {
+    var findresault = await UserCommentModel.find({ _id: commentId })
+    var { childrenComment } = findresault[0]
+    childrenComment.push(obj)
+    await UserCommentModel.updateOne(
+      { _id: commentId },
+      { childrenComment: childrenComment }
+    )
+    res.send('成功了')
+  })().catch((e) => console.error(e, 'err'))
 })
 
 module.exports = router

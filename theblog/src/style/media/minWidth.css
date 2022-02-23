@@ -1,6 +1,17 @@
 @media (min-width: 801px) {
 }
+@media (min-width: 601px) {
+  /* .textIntroduction_ul {
+    width: calc(100% - 150px);
+    padding-right: 10px;
+  } */
+}
 @media (min-width: 1100px) {
+  .textIntroduction_ul {
+    /* width: 400px; */
+    width: calc(100% - 200px);
+    padding-right: 10px;
+  }
   .Home_body {
     box-sizing: border-box;
     max-width: 1200px;
@@ -14,7 +25,9 @@
   }
   .el_card_el_image {
     width: 200px;
-    height: 168px;
+    height: 128px;
+    margin-top: auto;
+    margin-bottom: auto;
   }
   .writing_header {
     width: 800px;

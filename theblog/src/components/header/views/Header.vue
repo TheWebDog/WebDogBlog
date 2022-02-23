@@ -97,10 +97,10 @@
                   show-word-limit
                 ></el-input>
               </li>
-              <li class="header_li" @click="sign_out" :hidden="!loginornot">
+              <li class="header_li" @click="sign_out" v-if="loginornot">
                 <el-link icon="el-icon-user">退出</el-link>
               </li>
-              <li class="header_li" @click="to_login" :hidden="loginornot">
+              <li class="header_li" @click="to_login" v-if="!loginornot">
                 <el-link icon="el-icon-warning-outline">未登录</el-link>
               </li>
             </ul>

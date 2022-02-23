@@ -23,6 +23,7 @@ export default new VueRouter({
       beforeEnter: (to, from, next) => {
         if (VueCookies.isKey('key')) {
           if (VueCookies.get('key').power < 10) {
+            // console.log(from,'from')
             next('/')
           } else {
             next('/manager')
