@@ -1,14 +1,24 @@
 // import axios from 'axios'
-// import { GET_NAV } from './type'
+// import { GET_ARTICLEMANAGEDATA, REMOVE_DATA } from './type'
 export default {
-  // [GET_NAV]: function (state) {
+  // [GET_ARTICLEMANAGEDATA]: function (state) {
   //   axios
-  //     .get('http://localhost:3090/getClassify')
+  //     .post('http://localhost:4000/page/getList', {})
   //     .then((res) => {
-  //       state.classifyList = res.data
+  //       state.ArticleManageData = res.data
   //     })
   //     .catch((err) => {
   //       console.log(err)
   //     })
+  // },
+  // [REMOVE_DATA]: function (state, id) {
+  //   axios
+  //   .post('http://localhost:4000/page/removeArticle', { id })
+  //   .then((res) => {
+  //     alert(res.data)
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
   // },
 }

@@ -70,7 +70,7 @@
 .article_comment_header{
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #e3e3e3e3;
 }
 
 
@@ -78,7 +78,7 @@
   box-sizing: border-box;
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #e3e3e3e3;
 }
 .article_comment_writing_header,
 .article_comment_writing_body,
@@ -119,7 +119,7 @@
 .article_comment_li_commented{
   margin-left: 20px;
   padding-left: 10px;
-  border-left: 1px solid black;
+  border-left: 1px solid #e3e3e3e3;
 }
 .comment_ul_commented{
   list-style: none;

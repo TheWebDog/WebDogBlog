@@ -1,58 +1,150 @@
 <template>
-  <div class="list_div">
-    <el-row :gutter="12">
-      <el-col :span="24">
-        <ul class="list_ul">
-          <li class="list_li" v-for="(item, index) in 5" :key="index" @click="to_article(item)">
-            <el-card class="list_li_div" shadow="hover">
-              <el-image
-                class="el_card_el_image"
-                src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic3.zhimg.com%2Fv2-27e40447e4827ca0ac9424b8f37f6493_180x120.jpg&refer=http%3A%2F%2Fpic3.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647517541&t=85d311a6f2287001d45826b217edd758"
-                fit="cover"
-              ></el-image>
-              <div class="el_card_title">标题24个字</div>
-              <div class="el_card_generalization">简介45个字</div>
-              <div class="el_card_author">作者</div>
-              <el-tag class="el_card_time" type="info">时间</el-tag>
-              <el-tag class="el_card_tag">JavaScript</el-tag>
-            </el-card>
-          </li>
-        </ul>
-      </el-col>
-    </el-row>
+  <div class="articleManage_div">
+    <el-table
+      class="articleManage_el_table"
+      :data="
+        get_ArticleManageData.filter(
+          (data) =>
+            !table_search ||
+            data.title.toLowerCase().includes(table_search.toLowerCase())
+        )
+      "
+      stripe
+      style="width: 600px; min-width: 630px"
+    >
+      <el-table-column type="expand" width="60" label="展开">
+        <template slot-scope="props">
+          <div class="articleManage_template_div_el_form">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="分类：">
+                <el-tag size="medium">{{ props.row.category }}</el-tag>
+              </el-form-item>
+              <br />
+              <el-form-item label="简介：">
+                <p>{{ props.row.synopsis }}</p>
+              </el-form-item>
+            </el-form>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column sortable prop="date" label="日期" width="120">
+        <template slot-scope="scope">
+          <i class="el-icon-time"></i>
+          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="title" label="标题" width="150"> </el-table-column>
+
+      <el-table-column prop="category" label="分类" width="120">
+        <template slot-scope="scope">
+          <el-tag size="medium">{{ scope.row.category }}</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" width="180">
+        <template slot="header">
+          <input
+            class="articleManage_search"
+            type="text"
+            placeholder="输入关键字搜索"
+            v-model="table_search"
+          />
+        </template>
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+          >
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <!-- 分页 -->
-    <el-pagination
+    <!-- <el-pagination
       background
       layout="prev, pager, next"
       :page-size="10"
       :pager-count="5"
       :total="500"
     >
-    </el-pagination>
+    </el-pagination> -->
   </div>
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: "userManagement",
+  name: "UserManagement",
   data () {
     return {
-
+      table_search: '',
     }
   },
   computed: {
-    // ...mapGetters(['getClassifyList']),
+    ...mapGetters(['get_ArticleManageData']),
   },
   methods: {
-    // ...mapActions(['getNav','geClassifyList']),
-    to_article (item) {
-      this.$router.push(`/article/${item}`)
+    ...mapActions(['action_getArticleManageData', 'action_REMOVE_DATA']),
+    searchInput (e) {
+      console.log(e)
+      // this.table_search=e
+      // this.$forceUpdate()
     },
+    handleDelete (index, row) {
+      // 删除数据
+      this.action_REMOVE_DATA(row._id)
+      this.$router.go(0)
+    }
   },
   created () {
-
+    this.action_getArticleManageData()
   },
 }
 </script>
+
+<style>
+.articleManage_el_table {
+  margin: auto;
+  margin-bottom: 20px;
+}
+.articleManage_template_div_el_form {
+  padding: 5px 20px;
+}
+.articleManage_template_div_el_form > form > div {
+  margin: 0 !important;
+}
+.articleManage_el_table > div > table > thead > tr > th {
+  border-left: 1px solid #e3e3e3;
+}
+.articleManage_search {
+  width: 90%;
+  font-size: 12px;
+  /* 设置输入框中字体的大小 */
+  height: 30px;
+  /* 设置输入框的高度 */
+  border-radius: 4px;
+  /* 设置输入框的圆角的大小 */
+  border: 1px solid #c8cccf;
+  /* 设置输入框边框的粗细和颜色 */
+  color: #986655;
+  /* 设置输入框中文字的颜色 */
+  outline: 0;
+  /* 将输入框点击的时候出现的边框去掉 */
+  text-align: left;
+  /* 设置输入框中文字的位置 */
+  padding-left: 10px;
+  display: block;
+  /* 将输入框设置为块级元素 */
+  cursor: pointer;
+}
+
+.articleManage_search::-webkit-input-placeholder {
+  color: #986655;
+  font-size: 12px;
+}
+</style>

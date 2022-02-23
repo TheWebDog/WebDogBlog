@@ -2,7 +2,15 @@
   <div class="CommentManage_div">
     <el-table
       class="CommentManage_el_table"
-      :data="get_CommentManageData"
+      :data="
+        get_CommentManageData.filter(
+          (data) =>
+            !comment_search ||
+            data.userComment
+              .toLowerCase()
+              .includes(comment_search.toLowerCase())
+        )
+      "
       stripe
       style="width: 600px; min-width: 630px"
     >
@@ -26,7 +34,8 @@
                 <ul class="CommentManage_childrenComment_ul">
                   <li
                     class="CommentManage_childrenComment_li"
-                    v-for="(childrenItem,childrenIndex) in props.row.childrenComment"
+                    v-for="(childrenItem, childrenIndex) in props.row
+                      .childrenComment"
                     :key="childrenIndex"
                   >
                     <div class="CommentManage_childrenComment">
@@ -44,9 +53,14 @@
                       </div>
                       <div class="CommentManage_childrenComment_container">
                         <el-link
+                          :underline="false"
+                          class="children_delete"
                           icon="el-icon-delete"
                           @click="
-                            handleCommentChildrenDelete(childrenItem.userComment,props.row._id)
+                            handleCommentChildrenDelete(
+                              childrenItem.userComment,
+                              props.row._id
+                            )
                           "
                           >删除</el-link
                         >
@@ -74,6 +88,14 @@
       </el-table-column>
 
       <el-table-column label="操作" width="180">
+        <template slot="header">
+          <input
+            class="articleManage_search"
+            type="text"
+            placeholder="输入关键字搜索"
+            v-model="comment_search"
+          />
+        </template>
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -102,22 +124,22 @@ export default {
   name: "CommentManagement",
   data () {
     return {
-
+      comment_search: '',
     }
   },
   computed: {
     ...mapGetters(['get_CommentManageData']),
   },
   methods: {
-    ...mapActions(['action_getCommentManageData', 'action_remove_comment','action_remove_children']),
+    ...mapActions(['action_getCommentManageData', 'action_remove_comment', 'action_remove_children']),
     handleCommentDelete (index, row) {
       // 删除数据
       this.action_remove_comment(row._id)
       this.$router.go(0)
     },
-    handleCommentChildrenDelete (userComment,id) {
+    handleCommentChildrenDelete (userComment, id) {
       // 删除数据
-      this.action_remove_children({userComment,id})
+      this.action_remove_children({ userComment, id })
       this.$router.go(0)
     }
   },
@@ -130,6 +152,7 @@ export default {
 <style>
 .CommentManage_el_table {
   margin: auto;
+  margin-bottom: 20px;
 }
 .CommentManage_template_div_el_form {
   padding: 5px 20px;
@@ -139,6 +162,15 @@ export default {
 }
 .CommentManage_el_table > div > table > thead > tr > th {
   border-left: 1px solid #e3e3e3;
+}
+.children_delete > i,
+.children_delete > span {
+  /* font-weight: 900; */
+  color: #be002f;
+}
+.children_delete:hover {
+  font-weight: 900;
+  /* color: #be002f; */
 }
 
 .CommentManage_el_table
@@ -161,7 +193,7 @@ export default {
   list-style: none;
 }
 .CommentManage_childrenComment_li {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #e3e3e3;
   margin-bottom: 10px;
 }
 .CommentManage_childrenComment_container {
