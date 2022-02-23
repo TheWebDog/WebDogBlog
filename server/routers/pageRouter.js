@@ -250,7 +250,7 @@ router.post('/removeArticle', function (req, res) {
 
 // 接收留言
 router.post('/submitComment', function (req, res) {
-  var { userComment, articleId, userName, userId } = req.body
+  var { userComment, articleId, userName, userId ,articleTitle} = req.body
   var now = new Date()
   var day = now.getDate()
   var month = now.getMonth() + 1
@@ -259,6 +259,7 @@ router.post('/submitComment', function (req, res) {
   const theComment = new UserCommentModel({
     userComment,
     articleId,
+    articleTitle,
     userName,
     userId,
     date,
@@ -279,9 +280,16 @@ router.post('/submitComment', function (req, res) {
 // 获取留言
 router.post('/getArticleComment', function (req, res) {
   var { articleId } = req.body
+  // console.log(req.body)
   ;(async () => {
-    var findresault = await UserCommentModel.find({ articleId: articleId })
-    res.send(findresault)
+    if (articleId) {
+      var findresault = await UserCommentModel.find({ articleId: articleId })
+      res.send(findresault)
+    } else {
+      var findresault = await UserCommentModel.find({})
+      // console.log(findresault,'findresault')
+      res.send(findresault)
+    }
   })().catch((e) => console.error(e, 'err'))
 })
 
@@ -308,6 +316,20 @@ router.post('/submitCommentComment', function (req, res) {
       { childrenComment: childrenComment }
     )
     res.send('评论成功')
+  })().catch((e) => console.error(e, 'err'))
+})
+
+// 删除评论
+router.post('/removeComment', function (req, res) {
+  var { id } = req.body
+  ;(async () => {
+    var findresault = await UserCommentModel.find({ _id: id })
+    if (findresault.length == 0) {
+      res.send('该评论不存在')
+    } else {
+      await UserCommentModel.deleteOne({ _id: id })
+      res.send('删除成功')
+    }
   })().catch((e) => console.error(e, 'err'))
 })
 

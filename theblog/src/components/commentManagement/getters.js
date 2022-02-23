@@ -1,5 +1,5 @@
 export default {
-  // getClassifyList: function (state) {
-  //   return state.classifyList
-  // },
+  get_CommentManageData: function (state) {
+    return state.CommentManageData
+  },
 }

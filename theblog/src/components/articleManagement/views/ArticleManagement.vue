@@ -2,12 +2,12 @@
   <div class="articleManage_div">
     <el-table
       class="articleManage_el_table"
-      max-height="500"
+      
       :data="get_ArticleManageData.filter((data) =>!table_search ||data.title.toLowerCase().includes(table_search.toLowerCase()))"
       stripe
-      style="width: 600px; min-width: 600px"
+      style="width: 600px; min-width: 630px"
     >
-      <el-table-column type="expand" width="30">
+      <el-table-column type="expand" width="60" label="展开">
         <template slot-scope="props">
           <div class="articleManage_template_div_el_form">
             <el-form label-position="left" inline class="demo-table-expand">
