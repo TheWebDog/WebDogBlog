@@ -90,11 +90,6 @@ export default {
   },
   methods: {
     ...mapActions(['action_getArticleManageData', 'action_REMOVE_DATA']),
-    searchInput (e) {
-      console.log(e)
-      // this.table_search=e
-      // this.$forceUpdate()
-    },
     handleDelete (index, row) {
       // 删除数据
       this.action_REMOVE_DATA(row._id)
@@ -112,6 +107,24 @@ export default {
   margin: auto;
   margin-bottom: 20px;
 }
+.articleManage_el_table
+  > .el-table__body-wrapper
+  > table
+  > tbody
+  > tr
+  > .el-table_1_column_3
+  > div {
+  /* background-color: black !important; */
+  /* 文本溢出 显示为省略号 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+
+
+
 .articleManage_template_div_el_form {
   padding: 5px 20px;
 }

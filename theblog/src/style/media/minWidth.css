@@ -1,6 +1,16 @@
 @media (min-width: 801px) {
 }
 @media (min-width: 601px) {
+  .article_background_img{
+    position: absolute !important;
+    right: 30px;
+    top: 20px;
+    height: 130px;
+    width: 300px;
+  }
+  .article_title{
+    width: calc(100% - 330px);
+  }
   /* .textIntroduction_ul {
     width: calc(100% - 150px);
     padding-right: 10px;

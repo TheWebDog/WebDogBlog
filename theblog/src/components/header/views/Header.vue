@@ -24,7 +24,7 @@
             @tab-click="handleClick"
           >
             <el-tab-pane label="博客主页">博客主页</el-tab-pane>
-            <el-tab-pane label="技术交流">技术交流</el-tab-pane>
+            <!-- <el-tab-pane label="技术交流">技术交流</el-tab-pane> -->
             <el-tab-pane label="文章分类">文章分类</el-tab-pane>
             <el-tab-pane label="源码分享">源码分享</el-tab-pane>
             <el-tab-pane label="关于博主">关于博主</el-tab-pane>
@@ -72,13 +72,13 @@
         <el-col :span="19">
           <div class="el_col_header_div">
             <ul class="header_ul">
-              <li class="header_li" @click="to_list">
+              <!-- <li class="header_li" @click="to_list">
                 <el-link type="primary" icon="el-icon-s-promotion">
                   技术交流
                 </el-link>
-              </li>
+              </li> -->
               <li class="header_li" @click="to_articleClassifylist">
-                <el-link icon="el-icon-menu">文章分类</el-link>
+                <el-link icon="el-icon-menu">博客文章</el-link>
               </li>
               <li class="header_li">
                 <el-link icon="el-icon-s-management">源码分享</el-link>
@@ -140,7 +140,8 @@ export default {
         }
         this.action_setInputValue(value)
       } else {
-        this.$router.replace('/list')
+        // this.$router.replace('/list')
+        this.$router.replace('/')
       }
     },
     to_login () {
@@ -153,9 +154,9 @@ export default {
     to_home () {
       this.$router.push('/')
     },
-    to_list () {
-      this.$router.push('/list')
-    },
+    // to_list () {
+    //   this.$router.push('/list')
+    // },
     to_articleClassifylist () {
       this.$router.push('/articleClassify')
     },
@@ -166,7 +167,7 @@ export default {
           this.to_home()
           break;
         case '技术交流':
-          this.to_list()
+          // this.to_list()
           break;
         case '文章分类':
           this.to_articleClassifylist()

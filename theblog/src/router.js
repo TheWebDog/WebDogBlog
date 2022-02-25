@@ -103,13 +103,13 @@ export default new VueRouter({
             return import('./components/HomeBody.vue')
           },
         },
-        {
-          path: 'list',
-          name: 'list',
-          component: () => {
-            return import('./components/list/views/List.vue')
-          },
-        },
+        // {
+        //   path: 'list',
+        //   name: 'list',
+        //   component: () => {
+        //     return import('./components/list/views/List.vue')
+        //   },
+        // },
         {
           path: 'articleClassify',
           name: '',

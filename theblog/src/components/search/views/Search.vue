@@ -28,12 +28,14 @@ export default {
   methods: {
     ...mapActions([]),
     goBack () {
-      this.$router.replace('/list')
+      // this.$router.replace('/list')
+      this.$router.replace('/')
     }
   },
   created () {
     if (!this.$store._modules.root.state.listStore.searchInputValue) {
-      this.$router.replace('/list')
+      // this.$router.replace('/list')
+      this.$router.replace('/')
     }
     // this.action_getSearchList()
   },

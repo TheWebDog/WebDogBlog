@@ -23,6 +23,17 @@
   }
 }
 @media (max-width: 600px) {
+  .article_background_img{
+    position: relative !important;
+    /* right: 30px; */
+    /* top: 20px; */
+    height: 130px;
+    width: 300px;
+    margin-bottom: 10px;
+  }
+  .textIntroduction_ul{
+    width: 170px;
+  }
   .textIntroduction_ul {
     width: calc(100% - 100px);
     padding-right: 10px;

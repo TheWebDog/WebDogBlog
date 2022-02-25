@@ -1,33 +1,17 @@
 <template>
-  <div class="articleManage_div">
+  <div class="userManage_div">
     <el-table
-      class="articleManage_el_table"
+      class="userManage_el_table"
       :data="
-        get_ArticleManageData.filter(
+        get_UserManageData.filter(
           (data) =>
-            !table_search ||
-            data.title.toLowerCase().includes(table_search.toLowerCase())
+            !user_search ||
+            data.name.toLowerCase().includes(user_search.toLowerCase())
         )
       "
       stripe
-      style="width: 600px; min-width: 630px"
+      style="width: 640px"
     >
-      <el-table-column type="expand" width="60" label="展开">
-        <template slot-scope="props">
-          <div class="articleManage_template_div_el_form">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="分类：">
-                <el-tag size="medium">{{ props.row.category }}</el-tag>
-              </el-form-item>
-              <br />
-              <el-form-item label="简介：">
-                <p>{{ props.row.synopsis }}</p>
-              </el-form-item>
-            </el-form>
-          </div>
-        </template>
-      </el-table-column>
-
       <el-table-column sortable prop="date" label="日期" width="120">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
@@ -35,28 +19,42 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="标题" width="150"> </el-table-column>
-
-      <el-table-column prop="category" label="分类" width="120">
-        <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.category }}</el-tag>
-        </template>
+      <el-table-column prop="name" label="用户名" width="120">
       </el-table-column>
+
+      <el-table-column
+        prop="password"
+        label="哈希密码"
+        width="120"
+      ></el-table-column>
+
+      <el-table-column
+        prop="power"
+        label="权限等级"
+        width="100"
+      ></el-table-column>
 
       <el-table-column label="操作" width="180">
         <template slot="header">
           <input
-            class="articleManage_search"
+            class="userManage_search"
             type="text"
             placeholder="输入关键字搜索"
-            v-model="table_search"
+            v-model="user_search"
           />
         </template>
         <template slot-scope="scope">
           <el-button
             size="mini"
+            type="primary"
+            @click="handleUserChange(scope.$index, scope.row)"
+          >
+            修改
+          </el-button>
+          <el-button
+            size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="handleUserDelete(scope.$index, scope.row)"
           >
             删除
           </el-button>
@@ -82,46 +80,80 @@ export default {
   name: "UserManagement",
   data () {
     return {
-      table_search: '',
+      user_search: '',
     }
   },
   computed: {
-    ...mapGetters(['get_ArticleManageData']),
+    ...mapGetters(['get_UserManageData']),
   },
   methods: {
-    ...mapActions(['action_getArticleManageData', 'action_REMOVE_DATA']),
-    searchInput (e) {
-      console.log(e)
-      // this.table_search=e
-      // this.$forceUpdate()
-    },
-    handleDelete (index, row) {
+    ...mapActions(['action_getUserManageData', 'action_REMOVE_USERDATA', 'action_CHANGE_USERDATA']),
+    handleUserDelete (index, row) {
       // 删除数据
-      this.action_REMOVE_DATA(row._id)
+      this.action_REMOVE_USERDATA(row._id)
       this.$router.go(0)
-    }
+    },
+    handleUserChange (index, row) {
+      // 删除数据
+      this.$prompt('请输入数字', '更改权限', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^[0-9]+$/,
+        inputErrorMessage: '格式不正确'
+      }).then(({ value }) => {
+        if (value) {
+          var id = row._id
+          this.action_CHANGE_USERDATA({ id, value })
+          this.$router.go(0)
+          this.$message({
+            type: 'success',
+            message: '提交成功'
+          });
+        } else {
+          this.$message({
+            type: 'warning',
+            message: '未输入'
+          });
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
+
+
+
+
+
+
+
+
+
+      // this.$router.go(0)
+    },
   },
   created () {
-    this.action_getArticleManageData()
+    this.action_getUserManageData()
   },
 }
 </script>
 
 <style>
-.articleManage_el_table {
+.userManage_el_table {
   margin: auto;
   margin-bottom: 20px;
 }
-.articleManage_template_div_el_form {
+.userManage_template_div_el_form {
   padding: 5px 20px;
 }
-.articleManage_template_div_el_form > form > div {
+.userManage_template_div_el_form > form > div {
   margin: 0 !important;
 }
-.articleManage_el_table > div > table > thead > tr > th {
+.userManage_el_table > div > table > thead > tr > th {
   border-left: 1px solid #e3e3e3;
 }
-.articleManage_search {
+.userManage_search {
   width: 90%;
   font-size: 12px;
   /* 设置输入框中字体的大小 */
@@ -143,7 +175,7 @@ export default {
   cursor: pointer;
 }
 
-.articleManage_search::-webkit-input-placeholder {
+.userManage_search::-webkit-input-placeholder {
   color: #986655;
   font-size: 12px;
 }

@@ -17,6 +17,7 @@ const multiparty = require('multiparty') // 处理fromdata图片的中间件
 // 格式要求：res.send(`http://localhost:4000/page/getPic?picUrl=${XXX}`)
 router.get('/getPic', function (req, res) {
   var { picUrl } = req.query
+  // console.log(picUrl)
   res.sendFile(path.resolve(`./${picUrl}`))
 })
 

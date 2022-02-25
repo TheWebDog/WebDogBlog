@@ -1,5 +1,5 @@
 export default {
-  // get_ArticleManageData: function (state) {
-  //   return state.ArticleManageData
-  // },
+  get_UserManageData: function (state) {
+    return state.UserManageData
+  },
 }
