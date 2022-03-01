@@ -142,6 +142,14 @@ export default new VueRouter({
           },
           props: true,
         },
+        {
+          path: 'aboutMe',
+          name: 'aboutMe',
+          component: () => {
+            return import('./components/aboutMe/views/AboutMe.vue')
+          },
+          props: true,
+        },
 
       ],
     },

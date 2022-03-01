@@ -8,6 +8,7 @@ import { asideStore } from './components/aside'
 import { articleStore } from './components/article'
 import { loginStore } from './components/login'
 import { managerStore } from './components/manager'
+import { aboutMeStore } from './components/aboutMe'
 
 // 有用的store
 import { writingStore } from './components/writing'
@@ -48,6 +49,7 @@ const store = new Vuex.Store({
     articleStore,
     loginStore,
     managerStore,
+    aboutMeStore,
   },
 })
 

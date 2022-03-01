@@ -23,7 +23,7 @@
   text-align: center;
   margin: 10px;
 }
-.el-card__body {
+.list_li_div>.el-card__body {
   height: 100%;
   box-sizing: border-box;
   display: flex;

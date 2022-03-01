@@ -24,7 +24,8 @@
   }
   .Home_body {
     box-sizing: border-box;
-    max-width: 1200px;
+    /* max-width: 1200px; */
+    width: 1200px;
     margin: 5px auto;
   }
   .list_li {

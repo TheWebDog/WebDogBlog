@@ -83,7 +83,7 @@
               <li class="header_li">
                 <el-link icon="el-icon-s-management">源码分享</el-link>
               </li>
-              <li class="header_li">
+              <li class="header_li" @click="to_aboutMe">
                 <el-link icon="el-icon-s-custom">关于博主</el-link>
               </li>
               <li class="header_li">
@@ -160,6 +160,9 @@ export default {
     to_articleClassifylist () {
       this.$router.push('/articleClassify')
     },
+    to_aboutMe () {
+      this.$router.push('/aboutMe')
+    },
     handleClick (tab) {
       // console.log(tab._props.label, event);
       switch (tab._props.label) {
@@ -176,7 +179,7 @@ export default {
 
           break;
         case '关于博主':
-
+          this.to_aboutMe()
           break;
 
         default:
