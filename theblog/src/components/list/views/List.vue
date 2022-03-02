@@ -46,7 +46,8 @@
       layout="prev, pager, next"
       :page-size="10"
       :pager-count="5"
-      :total="get_articleList.length"
+      :total="get_articleList.length+20"
+      @current-change="handleCurrentChange"
     >
     </el-pagination>
   </div>
@@ -71,6 +72,9 @@ export default {
     ...mapActions(['action_getArticleList']),
     to_article (item) {
       this.$router.push(`/article/${item}`)
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`);
     },
   },
   created () {
